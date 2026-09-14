@@ -1,0 +1,113 @@
+name: Publish verified LUNA LINE spatial details
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/publish-spatial-verified.yml]
+permissions:
+  contents: write
+  pages: write
+  actions: read
+concurrency:
+  group: luna-line-spatial-upgrade
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Recover the exact native Apple WebGPU PASS artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 34832016269 --name luna-line-v2-browser-evidence --dir /tmp/luna-verified
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,hashlib,shutil
+          expected='6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911'
+          base='dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c'
+          source=Path('/tmp/luna-verified')
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          report=json.loads((source/'qa/report.json').read_text())
+          assert sha(source/'Luna-Line.html')==expected
+          assert report['sourceSHA256']==expected and report['status']=='PASS'
+          assert len(report['tests'])==25 and all(t['status']=='PASS' for t in report['tests'])
+          assert report['initial']['renderer']=='webgpu' and report['adapter']['vendor']=='apple'
+          assert sha(Path('Luna-Line.html')) in [base,expected], 'Concurrent runtime changes require a review; refusing overwrite.'
+          for shot in report['shots']:
+              assert sha(source/'qa'/shot['name'])==shot['sha256']
+          paths=['Luna-Line.html','README.md','qa/report.json','qa/run-qa-ci.mjs','qa/v2/BUILD.json','qa/v2/raster-check.json']
+          paths += ['qa/'+s['name'] for s in report['shots']]
+          for path in paths:
+              dest=Path(path);dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source/path,dest)
+          Path('qa/v2/native-provenance.json').write_text(json.dumps({'run':34832016269,'artifact':10342323873,'runtimeSHA256':expected,'nativeChecks':25,'status':'PASS','note':'The native and raster gates passed. Only the source push failed because main advanced; this job preserves the concurrent changes.'},indent=2)+'\n')
+          print('Verified native Apple WebGPU artifact: 25/25; all screenshot hashes match.')
+          PY
+      - name: Commit with a non-destructive rebase onto current main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Luna-Line.html README.md qa/*.png qa/report.json qa/run-qa-ci.mjs qa/v2/BUILD.json qa/v2/raster-check.json qa/v2/native-provenance.json
+          if ! git diff --cached --quiet; then git commit -m 'Ship LUNA LINE spatial details: 25 native Apple WebGPU checks passed'; fi
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            test "$(shasum -a 256 Luna-Line.html | cut -d' ' -f1)" = '6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911'
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
+      - name: Publish the identical file to Pages without rewriting history
+        run: |
+          git fetch origin gh-pages
+          git worktree add /tmp/luna-line-pages origin/gh-pages
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('/tmp/luna-line-pages/index.html')
+          allowed=['dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c','6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911']
+          assert hashlib.sha256(p.read_bytes()).hexdigest() in allowed, 'Concurrent Pages runtime requires review.'
+          p.write_bytes(Path('Luna-Line.html').read_bytes())
+          PY
+          cd /tmp/luna-line-pages
+          git add index.html
+          if ! git diff --cached --quiet; then git commit -m 'Publish verified LUNA LINE floating dimensions and spatial inspection'; fi
+          git push origin HEAD:gh-pages
+      - name: Request and verify the exact Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+          for attempt in $(seq 1 48); do
+            curl -fsS 'https://martin-hausleitner.github.io/Luna-Line/?v=spatial-detail-2' -o /tmp/luna-live.html || true
+            if test -s /tmp/luna-live.html && test "$(shasum -a 256 /tmp/luna-live.html | cut -d' ' -f1)" = '6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911'; then exit 0; fi
+            sleep 5
+          done
+          exit 1
+      - name: Native live Pages interaction and screenshot gates
+        env:
+          CHROME_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+        run: |
+          node qa/run-qa-ci.mjs --base=https://martin-hausleitner.github.io/Luna-Line/
+          python3 -c "import json; r=json.load(open('qa/live/report.json')); assert r['status']=='PASS' and len(r['tests'])==20, r"
+          git add qa/live
+          if ! git diff --cached --quiet; then git commit -m 'Record 20 native live Pages checks and spatial-detail screenshots'; fi
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+      - name: Preserve the final runtime and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: luna-line-spatial-final
+          path: |
+            Luna-Line.html
+            README.md
+            LICENSE
+            qa/
+          retention-days: 14
