@@ -2,7 +2,7 @@ name: LUNA LINE spatial details
 on:
   push:
     branches: [main]
-    paths: [qa/v2/upgrade.py, .github/workflows/spatial-details.yml]
+    paths: [qa/v2/upgrade.py]
 permissions:
   contents: write
   pages: write
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   upgrade:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -29,36 +29,38 @@ jobs:
           s=Path('Luna-Line.html').read_text()
           Path('/tmp/luna-line-check.js').write_text(s.split('<script>')[1].split('</script>')[0])
           qa=Path('qa/run-qa.mjs').read_text()
-          qa=qa.replace("['--headless=new'", "['--no-sandbox','--disable-dev-shm-usage','--disable-gpu-watchdog','--enable-unsafe-swiftshader','--use-angle=vulkan','--use-vulkan=swiftshader','--enable-features=Vulkan','--disable-vulkan-surface','--disable-skia-graphite','--headless=new'")
+          qa=qa.replace("['--headless=new'", "['--disable-gpu-watchdog','--headless=new'")
           qa=qa.replace("browser.stderr.on('data',d=>logs+=d.toString())", "browser.stderr.on('data',d=>{logs+=d.toString();fs.writeFileSync(path.join(out,'chrome.log'),logs)})")
           qa=qa.replace('timeout=35000','timeout=120000')
           qa=qa.replace("test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);", "test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);if(report.initial.renderer!=='webgpu')throw Error('Native WebGPU unavailable: '+report.initial.gpuError);")
           qa=qa.replace("throw Error('Wait timeout '+expression)","throw Error('Wait timeout '+expression+' STATE '+JSON.stringify(await evaluate('Luna.inspect.snapshot()')))")
+          qa=qa.replace("let s=await evaluate('Luna.line.seconds');await sleep(1100);", "let s=await evaluate('Luna.line.seconds');await wait('Luna.line.seconds>'+String(s+.5),5000);")
           extra="""
            await evaluate('Luna.inspect.jump(2);Luna.inspect.details.open("process")');await sleep(1000);await shot('10-process-detail.png');
-           test('V2 native spatial measurements',await evaluate('Luna.detail.open&&Luna.detail.dimensionCount>=3&&Luna.gpu.mode==="webgpu"&&!Luna.gpu.error'));
+           test('V2 native spatial measurements',await evaluate('Luna.detail.open&&!Luna.detail.transition&&Luna.detail.dimensionCount>=3&&Luna.gpu.mode==="webgpu"&&!Luna.gpu.error'));
            test('V2 thirty operation descriptions',await evaluate('Luna.inspect.details.snapshot().operationCount===30'));
            await evaluate('Luna.detail.tab="material";renderDetail();Luna.inspect.details.explode(1)');await sleep(600);await shot('11-layer-detail.png');
-           test('V2 exploded original front',await evaluate('Luna.detail.explode===1&&Luna.line.id==="TA2026-00009-T04"'));
+           test('V2 exploded original front',await evaluate('Luna.detail.explode===1&&Luna.line.id==="TA2026-00009-T04"&&document.getElementById("detailSummary").textContent.includes("Schichten getrennt")'));
            await evaluate('Luna.inspect.jump(5);Luna.inspect.details.open("material");Luna.inspect.details.view("back")');await sleep(900);await shot('12-back-detail.png');
            await evaluate('Luna.detail.tab="dimensions";renderDetail()');await shot('13-dimension-detail.png');
-           test('V2 dimension drawing',await evaluate('!!document.querySelector(".blueprint")&&document.getElementById("detailBody").innerText.includes("597 × 715 × 19 mm")'));
+           test('V2 dimension drawing',await evaluate('Luna.detail.view==="back"&&!!document.querySelector(".blueprint")&&document.getElementById("detailBody").innerText.includes("597 × 715 × 19 mm")'));
            await evaluate('Luna.inspect.details.close(false)');
           """
           qa=qa.replace(" await key('c','KeyC');test('C shows",extra+"\n await key('c','KeyC');test('C shows",1)
           Path('qa/run-qa-ci.mjs').write_text(qa)
           PY
           node --check /tmp/luna-line-check.js
-      - name: Native WebGPU local QA and 60-second playback
+      - name: Native Apple WebGPU QA and 60-second playback
         env:
-          CHROME_PATH: /usr/bin/google-chrome
+          CHROME_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
         run: |
           node qa/run-qa-ci.mjs --full
           python3 -c "import json; r=json.load(open('qa/report.json')); assert r['status']=='PASS', r"
-      - name: Reject corrupted software-compositor captures
+      - name: Reject corrupted raster captures
         run: |
-          python3 -c 'from PIL import Image' || python3 -m pip install --quiet Pillow==11.3.0
-          python3 - <<'PY'
+          python3 -m venv /tmp/luna-qa-imaging
+          /tmp/luna-qa-imaging/bin/pip install --quiet Pillow==11.3.0
+          /tmp/luna-qa-imaging/bin/python - <<'PY'
           from PIL import Image, ImageChops, ImageStat
           import json
           results=[]
@@ -77,7 +79,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Luna-Line.html README.md qa/*.png qa/report.json qa/run-qa-ci.mjs qa/v2/BUILD.json qa/v2/raster-check.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Ship LUNA LINE v2 with native WebGPU regression evidence'
+            git commit -m 'Ship LUNA LINE v2 with native Apple WebGPU evidence'
             git push origin HEAD:main
           fi
       - name: Publish the identical runtime to the existing Pages branch
@@ -96,17 +98,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"
-          expected=$(sha256sum Luna-Line.html | cut -d' ' -f1)
+          expected=$(shasum -a 256 Luna-Line.html | cut -d' ' -f1)
           for attempt in $(seq 1 48); do
             curl -fsS 'https://martin-hausleitner.github.io/Luna-Line/?v=spatial-detail-2' -o /tmp/luna-live.html || true
-            if test -s /tmp/luna-live.html && test "$(sha256sum /tmp/luna-live.html | cut -d' ' -f1)" = "$expected"; then exit 0; fi
+            if test -s /tmp/luna-live.html && test "$(shasum -a 256 /tmp/luna-live.html | cut -d' ' -f1)" = "$expected"; then exit 0; fi
             sleep 5
           done
           echo 'Pages did not serve the verified runtime within the verification window.'
           exit 1
       - name: Native live Pages QA and screenshots
         env:
-          CHROME_PATH: /usr/bin/google-chrome
+          CHROME_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
         run: |
           node qa/run-qa-ci.mjs --base=https://martin-hausleitner.github.io/Luna-Line/
           python3 -c "import json; r=json.load(open('qa/live/report.json')); assert r['status']=='PASS', r"
@@ -122,5 +124,7 @@ jobs:
           name: luna-line-v2-browser-evidence
           path: |
             Luna-Line.html
+            README.md
+            LICENSE
             qa/
           retention-days: 14
