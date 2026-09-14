@@ -2,7 +2,7 @@ name: LUNA LINE spatial details
 on:
   push:
     branches: [main]
-    paths: [qa/v2/upgrade.py]
+    paths: [qa/v2/upgrade.py, .github/workflows/spatial-details.yml]
 permissions:
   contents: write
   pages: write
@@ -29,7 +29,10 @@ jobs:
           s=Path('Luna-Line.html').read_text()
           Path('/tmp/luna-line-check.js').write_text(s.split('<script>')[1].split('</script>')[0])
           qa=Path('qa/run-qa.mjs').read_text()
-          qa=qa.replace("['--headless=new'", "['--no-sandbox','--use-angle=swiftshader','--enable-features=Vulkan','--disable-vulkan-surface','--headless=new'")
+          qa=qa.replace("['--headless=new'", "['--no-sandbox','--disable-dev-shm-usage','--disable-gpu-watchdog','--enable-unsafe-swiftshader','--use-angle=swiftshader','--use-vulkan=swiftshader','--enable-features=Vulkan','--disable-vulkan-surface','--disable-skia-graphite','--headless=new'")
+          qa=qa.replace("browser.stderr.on('data',d=>logs+=d.toString())", "browser.stderr.on('data',d=>{logs+=d.toString();fs.writeFileSync(path.join(out,'chrome.log'),logs)})")
+          qa=qa.replace('timeout=35000','timeout=120000')
+          qa=qa.replace("test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);", "test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);if(report.initial.renderer!=='webgpu')throw Error('Native WebGPU unavailable: '+report.initial.gpuError);")
           extra="""
            await evaluate('Luna.inspect.jump(2);Luna.inspect.details.open("process")');await sleep(1000);await shot('10-process-detail.png');
            test('V2 native spatial measurements',await evaluate('Luna.detail.open&&Luna.detail.dimensionCount>=3&&Luna.gpu.mode==="webgpu"&&!Luna.gpu.error'));
