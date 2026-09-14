@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 BASE = 'dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c'
 INTERMEDIATE = '8c4808dc1bdcf672271c91c8b949fde023efdf51de5b4d8ee3d9ae2c255b0dcb'
-TARGET = '5496f29c6d4d97ecf32ac70ee048ab612655468a42121efeddae83f27990525a'
+PREVIOUS = '5496f29c6d4d97ecf32ac70ee048ab612655468a42121efeddae83f27990525a'
+TARGET = '2776863eff6f505426c298d489d6264ba384f0eee4196937875b0001261ae464'
 SEGMENTS = ['cd75adc6aae637bcb4a40c178d05dfadad723ab3','235edf734cb7e5783072f50a814cbd019d6a401d','8fe8b4ff6400d2c7ebd0033ef03300ac4ee1d7e4','0f1961927f5bab96fbee0896e6600afaab2899d0']
 
 def sha256(data: bytes) -> str:
@@ -23,7 +24,7 @@ def main() -> None:
     path = ROOT / 'Luna-Line.html'
     original = path.read_bytes()
     digest = sha256(original)
-    if digest not in (BASE, INTERMEDIATE, TARGET):
+    if digest not in (BASE, INTERMEDIATE, PREVIOUS, TARGET):
         raise SystemExit('Refusing to replace an unreviewed runtime: ' + digest)
     result = original
     if digest == BASE:
@@ -52,10 +53,20 @@ def main() -> None:
         after = 'let dt=Math.max(0,(now-last)/1000||0);'
         if text.count(before) != 1:
             raise SystemExit('Unrecognized animation clock.')
-        # Never discard elapsed seconds on low-frame-rate devices. Hidden tabs
-        # already pause through the existing visibility handler; play resets last.
         result = text.replace(before, after).encode('utf-8')
-    if sha256(result) != TARGET or len(result) != 109387:
+    if sha256(result) == PREVIOUS:
+        text = result.decode('utf-8')
+        changes = [
+            (" const story=$('title').getBoundingClientRect();", " if(Detail.open){const dock=$('viewDock').getBoundingClientRect();if(dock.width&&dock.height)occupied.push([dock.left-10,dock.top-10,dock.width+20,dock.height+20])}\n const story=$('title').getBoundingClientRect();"),
+            ("' %':'zusammengefügt';renderNeeded=true}", "' %':'zusammengefügt';if(Detail.open)$('detailSummary').textContent='Eiche · 597 × 715 × 19 mm · '+(Detail.explode?'Schichten getrennt':'Originalmaße am Modell');renderNeeded=true}"),
+            (" Detail.open=true;Detail.selection=selection;Detail.tab=tab;", " Detail.open=true;Detail.selection=selection;Detail.tab=tab;Detail.lastStation=currentIndex();")
+        ]
+        for before, after in changes:
+            if text.count(before) != 1:
+                raise SystemExit('Unrecognized detail markup: ' + before)
+            text = text.replace(before, after)
+        result = text.encode('utf-8')
+    if sha256(result) != TARGET or len(result) != 109731:
         raise SystemExit('The resulting runtime does not match the reviewed build.')
     if result != original:
         temporary = path.with_suffix('.html.new')
@@ -101,10 +112,12 @@ No machine, order booking or customer system is connected.
 
 The restricted local container exercised the Canvas2D interaction path (46
 checks). Native WebGPU and live Pages results are separate in `qa/report.json`
-and `qa/live/report.json`. Each report includes its actual adapter. Software
-SwiftShader validation is not a Mac hardware benchmark. Historic v1 Mac results
-are not v2 tests. The build manifest alone proves no browser or live acceptance.
-QA files are development evidence, not runtime dependencies.
+and `qa/live/report.json`. Each report includes its actual adapter. The native
+v2 publishing gate runs on hosted macOS with an Apple GPU, not your personal
+Mac. Earlier unsuccessful Linux SwiftShader trials are not acceptance evidence.
+Historic v1 Mac results are not v2 tests. The build manifest alone proves no
+browser or live acceptance. QA files are development evidence, not runtime
+requirements. Pages serves one self-contained HTML.
 
 ### Deutsch
 
