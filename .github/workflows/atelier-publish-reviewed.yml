@@ -22,6 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
       - uses: actions/download-artifact@v4
         with:
           name: Luna-Line-Atelier-Apple
@@ -59,10 +60,6 @@ jobs:
           text=text[:start]+paragraph+text[end:]
           text+='\n\nThe pre-Atelier spatial revision is preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA describes earlier revisions; current Atelier evidence is in `qa/atelier/`. Canonical runtime: 128,011 bytes; SHA-256 `'+expected+'`.\n'
           p.write_text(text)
-          old=Path('.github/workflows/atelier-upgrade.yml').read_text()
-          code=old.split("python3 - <<'PY'",1)[1].split('\n          PY',1)[0]
-          manual="name: Atelier source reconstruction (manual only)\non:\n  workflow_dispatch:\npermissions:\n  contents: read\njobs:\n  reconstruct:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - name: Verify archived first-party source transfer\n        run: |\n          python3 - <<'PY'"+code+'\n          PY\n'
-          Path('.github/workflows/atelier-upgrade.yml').write_text(manual)
           print('Reviewed artifact verified. No runtime bytes changed.')
           PY
       - name: Commit reviewed canonical runtime and evidence without rewriting history
@@ -70,7 +67,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Luna-Line.html README.md qa/atelier .github/workflows/atelier-upgrade.yml
+          git add Luna-Line.html README.md qa/atelier
           git diff --cached --quiet || git commit -m 'Ship reviewed LUNA LINE Atelier: 68 additions and 102 native Apple checks passed'
           git push origin HEAD:main
       - name: Publish identical verified bytes at Pages root
