@@ -83,3 +83,5 @@ The original craft references are Aster, AxiomCAM, Formalyth, AureonStudio, Stra
 
 
 The pre-Atelier spatial revision is preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA describes earlier revisions; current Atelier evidence is in `qa/atelier/`. Canonical runtime: 128,011 bytes; SHA-256 `cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec`.
+
+Live Pages execution: **17/17 checks PASS**, native Apple WebGPU. [Live report](qa/atelier/live/report.json), [live cut](qa/atelier/live/02-cut.png), [live evening](qa/atelier/live/06-evening.png). Live bytes matched the reviewed canonical SHA-256 before capture.

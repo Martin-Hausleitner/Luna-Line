@@ -1,0 +1,20 @@
+PASS Single-file contracts and part identity
+PASS At least 50 documented new features
+PASS Native WebGPU actually initialized
+PASS CEO overlay off by default
+PASS Station 1 and readable unique inscription
+PASS Station 2 and readable unique inscription
+PASS WebGPU remains active for 02-cut.png
+SHOT 02-cut.png 2382516
+PASS Station 3 and readable unique inscription
+PASS Station 4 and readable unique inscription
+PASS Station 5 and readable unique inscription
+PASS Station 6 and readable unique inscription
+PASS WebGPU remains active for 06-evening.png
+SHOT 06-evening.png 2440303
+PASS Live zoom changes actual camera
+PASS Live cabinet door control
+PASS Live exploded construction
+PASS No uncaught browser errors
+PASS No external runtime resources
+{"status": "PASS", "pass": 17, "fail": 0, "unverified": 0, "shots": 2}

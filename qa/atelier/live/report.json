@@ -1,0 +1,172 @@
+{
+  "product": "LUNA LINE Atelier",
+  "observedAt": "2026-09-14T10:46:42.416984+00:00",
+  "url": "https://martin-hausleitner.github.io/Luna-Line/",
+  "browserVersion": "152.0.7977.83",
+  "runtimeSha256": "cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec",
+  "adapter": {
+    "vendor": "apple",
+    "architecture": "",
+    "description": ""
+  },
+  "initial": {
+    "renderer": "webgpu",
+    "gpuError": null,
+    "frames": 2,
+    "seconds": 0,
+    "station": 0,
+    "id": "TA2026-00009-T04",
+    "dimensionsMM": [
+      597,
+      715,
+      19
+    ],
+    "seed": 409,
+    "playing": false,
+    "overview": false,
+    "storage": true,
+    "camera": [
+      3.482880424595412,
+      2.83,
+      5.48
+    ],
+    "vertices": 216876
+  },
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "Single-file contracts and part identity",
+      "status": "PASS",
+      "detail": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 2,
+        "seconds": 0,
+        "station": 0,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          3.482880424595412,
+          2.83,
+          5.48
+        ],
+        "vertices": 216876
+      }
+    },
+    {
+      "name": "At least 50 documented new features",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Native WebGPU actually initialized",
+      "status": "PASS",
+      "detail": {
+        "adapter": {
+          "vendor": "apple",
+          "architecture": "",
+          "description": ""
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "CEO overlay off by default",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 1 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 2 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 02-cut.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 3 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 4 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 5 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 6 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 06-evening.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Live zoom changes actual camera",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Live cabinet door control",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Live exploded construction",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "No external runtime resources",
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "shots": [
+    {
+      "file": "02-cut.png",
+      "sha256": "02a796672210e548ade9b75b59c5dd73063d94b68686a397635ba51bfb99d08b",
+      "bytes": 2382516,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "06-evening.png",
+      "sha256": "ee1f4f52489caa87c3c23311fe9f7c060f2b45aff0a5dbb4c6a2f3de985e8a7d",
+      "bytes": 2440303,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    }
+  ],
+  "errors": [],
+  "limitations": []
+}
