@@ -1,15 +1,15 @@
 {
-  "started": "2026-09-14T01:35:26.399Z",
+  "started": "2026-09-14T10:17:35.899Z",
   "environment": {
     "platform": "darwin",
     "arch": "arm64",
-    "node": "v26.5.0"
+    "node": "v22.23.2"
   },
   "viewport": {
     "width": 1920,
     "height": 1080
   },
-  "sourceSHA256": "dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c",
+  "sourceSHA256": "6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911",
   "tests": [
     {
       "name": "Native WebGPU rendering",
@@ -35,7 +35,7 @@
           3.3,
           6.9
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
@@ -71,6 +71,22 @@
       "status": "PASS"
     },
     {
+      "name": "V2 native spatial measurements",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 thirty operation descriptions",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 exploded original front",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 dimension drawing",
+      "status": "PASS"
+    },
+    {
       "name": "C shows 4.2 / 5.0 Soll",
       "status": "PASS"
     },
@@ -83,7 +99,7 @@
       "status": "PASS",
       "detail": {
         "start": 12,
-        "end": 13.289899999999978
+        "end": 13.292099999999989
       }
     },
     {
@@ -111,8 +127,8 @@
   "shots": [
     {
       "name": "02-cut.png",
-      "bytes": 2158943,
-      "sha256": "a67f263a4b45f7349dfa315678cb10f1e0321af5141aedca582b09ab7151b290",
+      "bytes": 2189148,
+      "sha256": "e8347f8fff1c4b97ea05bd77e11150ceacf26f4f3f941a168263003fe6566040",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -134,13 +150,13 @@
           4.432621368008853,
           5.2
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "06-evening.png",
-      "bytes": 2116991,
-      "sha256": "44538da7ce47e868d777677a084d555d6199ded1f0ff44667cbbcb26f2d5e10b",
+      "bytes": 2103282,
+      "sha256": "d0d39b46d89903b58cc64afa246d006d0ac7b47a5c37c03a6beb4b2a50e5824c",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -162,7 +178,119 @@
           2.082621368008853,
           5.5
         ],
-        "vertices": 31644
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "10-process-detail.png",
+      "bytes": 1664695,
+      "sha256": "60448a431cd33115bbd9f87979d28f02f83c34b1815546eee056217018cd06e1",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 9,
+        "seconds": 22,
+        "station": 2,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          24.919149715946524,
+          1.884401115715876,
+          1.8787322060240457
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "11-layer-detail.png",
+      "bytes": 1691273,
+      "sha256": "bf068ba41b432c409aeb69ce1d0fd5c9ef91480f34d57b204236fc41ad6d8386",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 10,
+        "seconds": 22,
+        "station": 2,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          25.514096035318428,
+          1.9277168451875617,
+          1.688806672562158
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "12-back-detail.png",
+      "bytes": 1624694,
+      "sha256": "136abc2265a5fc7e3d0530041b725b40c383bdee0beae0395b2d35b68ee8dc72",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 11,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          60.17685323552726,
+          0.7772386822363551,
+          -1.6823199305501881
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "13-dimension-detail.png",
+      "bytes": 1604970,
+      "sha256": "8365d684b13388568250d8220b07c9093a3de2e09fc284d4935fcf1d2e3be2f7",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 11,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          60.17685323552726,
+          0.7772386822363551,
+          -1.6823199305501881
+        ],
+        "vertices": 55764
       }
     }
   ],
@@ -181,7 +309,7 @@
   },
   "adapter": {
     "vendor": "apple",
-    "architecture": "metal-3",
+    "architecture": "",
     "description": ""
   },
   "initial": {
@@ -205,8 +333,8 @@
       3.3,
       6.9
     ],
-    "vertices": 31644
+    "vertices": 55764
   },
   "status": "PASS",
-  "finished": "2026-09-14T01:35:38.094Z"
+  "finished": "2026-09-14T10:18:04.551Z"
 }
