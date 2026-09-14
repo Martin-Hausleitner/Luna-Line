@@ -95,5 +95,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Luna-Line-Atelier-QA
-          path: qa/atelier/
+          path: |
+            qa/atelier/
+            qa/atelier-transfer/
+            qa/atelier-payload.json.gz.b64
           retention-days: 14
