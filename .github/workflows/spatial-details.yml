@@ -1,0 +1,53 @@
+name: LUNA LINE spatial details
+on:
+  push:
+    branches: [main]
+    paths: [qa/v2/upgrade.py]
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: luna-line-spatial-upgrade
+  cancel-in-progress: false
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Materialize and validate the single runtime
+        run: |
+          python3 qa/v2/upgrade.py
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('Luna-Line.html').read_text()
+          Path('/tmp/luna-line-check.js').write_text(s.split('<script>')[1].split('</script>')[0])
+          PY
+          node --check /tmp/luna-line-check.js
+      - name: Commit source without rewriting other work
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Luna-Line.html qa/v2/BUILD.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Ship LUNA LINE v2: spatial dimensions and 30 detailed operations'
+            git push origin HEAD:main
+          fi
+      - name: Publish the identical runtime to the existing Pages branch
+        run: |
+          git fetch origin gh-pages
+          git worktree add /tmp/luna-line-pages origin/gh-pages
+          cp Luna-Line.html /tmp/luna-line-pages/index.html
+          cd /tmp/luna-line-pages
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish LUNA LINE spatial-detail runtime'
+            git push origin HEAD:gh-pages
+          fi
+      - name: Request a Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"
