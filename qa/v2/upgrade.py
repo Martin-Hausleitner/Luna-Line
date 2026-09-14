@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""Materialize the reviewed single-file runtime; refuse any unreviewed baseline.
-
-The four data files contain a gzip-compressed JSON text delta, not executable
-Python or a runtime dependency. All resulting JavaScript is committed openly in
-Luna-Line.html and syntax/browser-tested before Pages publication.
+"""Materialize the reviewed single-file runtime, rejecting unreviewed baselines.
+The four data files are a gzip JSON text delta, not executable Python or an app dependency.
+The resulting JavaScript is committed openly and syntax/browser-tested before publication.
 """
 from pathlib import Path
 import base64
@@ -14,13 +12,9 @@ import json
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 BASE = 'dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c'
-TARGET = '8c4808dc1bdcf672271c91c8b949fde023efdf51de5b4d8ee3d9ae2c255b0dcb'
-SEGMENTS = [
-    'cd75adc6aae637bcb4a40c178d05dfadad723ab3',
-    '235edf734cb7e5783072f50a814cbd019d6a401d',
-    '8fe8b4ff6400d2c7ebd0033ef03300ac4ee1d7e4',
-    '0f1961927f5bab96fbee0896e6600afaab2899d0',
-]
+INTERMEDIATE = '8c4808dc1bdcf672271c91c8b949fde023efdf51de5b4d8ee3d9ae2c255b0dcb'
+TARGET = '5496f29c6d4d97ecf32ac70ee048ab612655468a42121efeddae83f27990525a'
+SEGMENTS = ['cd75adc6aae637bcb4a40c178d05dfadad723ab3','235edf734cb7e5783072f50a814cbd019d6a401d','8fe8b4ff6400d2c7ebd0033ef03300ac4ee1d7e4','0f1961927f5bab96fbee0896e6600afaab2899d0']
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -29,14 +23,15 @@ def main() -> None:
     path = ROOT / 'Luna-Line.html'
     original = path.read_bytes()
     digest = sha256(original)
-    if digest not in (BASE, TARGET):
+    if digest not in (BASE, INTERMEDIATE, TARGET):
         raise SystemExit('Refusing to replace an unreviewed runtime: ' + digest)
+    result = original
     if digest == BASE:
         chunks = []
         for i, expected in enumerate(SEGMENTS):
             chunk = (HERE / f'upgrade-{i:02}.b64').read_bytes()
-            git_blob = hashlib.sha1(b'blob ' + str(len(chunk)).encode() + b'\0' + chunk).hexdigest()
-            if git_blob != expected:
+            blob = hashlib.sha1(b'blob ' + str(len(chunk)).encode() + b'\0' + chunk).hexdigest()
+            if blob != expected:
                 raise SystemExit(f'Delta segment {i} failed integrity verification.')
             chunks.append(chunk.decode('ascii'))
         delta = json.loads(gzip.decompress(base64.b64decode(''.join(chunks), validate=True)))
@@ -49,29 +44,36 @@ def main() -> None:
         for start, end, replacement in reversed(delta):
             text = text[:start] + replacement + text[end:]
         result = text.encode('utf-8')
-        if sha256(result) != TARGET or len(result) != 109387:
-            raise SystemExit('The resulting runtime does not match the reviewed build.')
+        if sha256(result) != INTERMEDIATE:
+            raise SystemExit('The assembled spatial-detail delta failed verification.')
+    if sha256(result) == INTERMEDIATE:
+        text = result.decode('utf-8')
+        before = 'let dt=Math.min(1,(now-last)/1000||0);'
+        after = 'let dt=Math.max(0,(now-last)/1000||0);'
+        if text.count(before) != 1:
+            raise SystemExit('Unrecognized animation clock.')
+        # Never discard elapsed seconds on low-frame-rate devices. Hidden tabs
+        # already pause through the existing visibility handler; play resets last.
+        result = text.replace(before, after).encode('utf-8')
+    if sha256(result) != TARGET or len(result) != 109387:
+        raise SystemExit('The resulting runtime does not match the reviewed build.')
+    if result != original:
         temporary = path.with_suffix('.html.new')
         temporary.write_bytes(result)
         temporary.replace(path)
     manifest = {
-        'build': '2.0.0-spatial-details',
-        'runtime': 'Luna-Line.html',
-        'bytes': path.stat().st_size,
-        'sourceSHA256': sha256(path.read_bytes()),
-        'baseSHA256': BASE,
-        'singleFileRuntime': True,
-        'operationCount': 30,
-        'partId': 'TA2026-00009-T04',
-        'finishedDimensionsMM': [597, 715, 19],
+        'build': '2.0.0-spatial-details', 'runtime': 'Luna-Line.html',
+        'bytes': len(result), 'sourceSHA256': TARGET, 'baseSHA256': BASE,
+        'singleFileRuntime': True, 'operationCount': 30,
+        'partId': 'TA2026-00009-T04', 'finishedDimensionsMM': [597,715,19],
         'constructionAndOperations': 'Explicit demo assumptions; no actual machine measurements.',
-        'localInteractionRun': {'status': 'PASS', 'checks': 46, 'renderer': 'canvas2d', 'nativeWebGPU': 'NOT_RUN in the restricted local container'},
-        'nativeBrowserEvidence': '../report.json',
-        'liveBrowserEvidence': '../live/report.json',
-        'note': 'This build manifest is not a native GPU or live-site test result. Consult the separate browser reports.'
+        'animationClock': 'Nonnegative elapsed wall time; no slow-frame truncation; pause on document hidden.',
+        'localInteractionRun': {'status':'PASS','checks':46,'renderer':'canvas2d','nativeWebGPU':'NOT_RUN in the restricted local container'},
+        'nativeBrowserEvidence': '../report.json', 'liveBrowserEvidence': '../live/report.json',
+        'note':'This manifest is not a native GPU or live-site test result. Consult the separate browser reports.'
     }
-    (HERE / 'BUILD.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
-    readme = ROOT / 'README.md'
+    (HERE/'BUILD.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    readme = ROOT/'README.md'
     content = readme.read_text(encoding='utf-8')
     marker = '## Spatial detail upgrade / Räumliche Details (v2)'
     if marker not in content:
@@ -81,52 +83,50 @@ def main() -> None:
 
 ### English
 
-The original continuous six-station journey is preserved. Click the tracked front
-or a floating dimension to pause and inspect it. The four inspection tabs show
-30 selectable process steps, orthographic dimension drawings, material layers,
-and the limits of verification. Width, height, thickness and station-specific
-dimensions remain anchored to the model while the camera moves.
+The original six-station journey is preserved. Click the tracked front or a
+floating dimension to pause and inspect it. Four tabs show 30 selectable process
+steps, orthographic dimension drawings, material layers and verification limits.
+Width, height, thickness and station-specific dimensions follow the actual model.
 
-Controls: **1–6** stations; **Space** play/pause; **D** inspect; **M** dimensions;
-**X** explode layers; **R** reset view; **Escape** close inspection; **C** CEO hours;
-**G** full line; **F** fullscreen. In inspection, drag to orbit and scroll to zoom.
-Front, back, top and station-context views are available. The layer and door-angle
-sliders alter the actual rendered geometry. SVG and JSON exports are real downloads.
+**1–6** stations; **Space** play/pause; **D** inspect; **M** dimensions;
+**X** explode layers; **R** reset; **Escape** close; **C** CEO; **G** full line;
+**F** fullscreen. Drag to orbit and scroll to zoom in inspection. Front, back,
+top and station-context views are available. Layer and door-angle sliders alter
+rendered geometry. SVG and JSON exports are actual downloads.
 
 The finished front remains 597 × 715 × 19 mm with grain seed 409. Additional
-veneer/core layers, hinges, process targets and checks are explicitly marked as
-demo assumptions, not verified manufacturing instructions or live measurements.
-No machines, order booking or customer systems are connected.
+veneer/core layers, hinges, process targets and checks are explicit demo
+assumptions, not verified manufacturing instructions or measured machine data.
+No machine, order booking or customer system is connected.
 
-The v2 interaction run passed 46 checks using Canvas2D in the restricted local
-container. Native WebGPU and live Pages results are recorded separately in
-`qa/report.json` and `qa/live/report.json`; do not treat the historical v1 Mac
-result or the build manifest as a new Mac hardware benchmark. The CI renderer's
-actual adapter is included in those reports. QA files are development evidence,
-not runtime dependencies. Pages still serves exactly one self-contained HTML.
+The restricted local container exercised the Canvas2D interaction path (46
+checks). Native WebGPU and live Pages results are separate in `qa/report.json`
+and `qa/live/report.json`. Each report includes its actual adapter. Software
+SwiftShader validation is not a Mac hardware benchmark. Historic v1 Mac results
+are not v2 tests. The build manifest alone proves no browser or live acceptance.
+QA files are development evidence, not runtime dependencies.
 
 ### Deutsch
 
-Die ursprüngliche Reise bleibt erhalten. Klicken Sie auf die Front oder ein
-schwebendes Maß: Die Fahrt pausiert und Sie sehen Arbeitsschritte, Maße, Aufbau
-und Prüfung. 30 Arbeitsschritte sind einzeln anwählbar. Drehen, Zoomen, Rückseite,
-Draufsicht und die aufgetrennten Materialschichten zeigen die Bauteildetails.
-Die Tür lässt sich in der passenden Station öffnen. Maßzeichnung als SVG und
-Bauteildaten als JSON lassen sich direkt exportieren.
+Klicken Sie auf die Front oder ein schwebendes Maß: Die Fahrt pausiert und Sie
+sehen Arbeitsschritte, Maße, Aufbau und Prüfung. Alle 30 Arbeitsschritte sind
+einzeln anwählbar. Drehen, Zoomen, Rückseite, Draufsicht und aufgetrennte Schichten
+zeigen die Details. Die Tür lässt sich in der passenden Station öffnen.
+Maßzeichnung (SVG) und Bauteildaten (JSON) können Sie direkt exportieren.
 
 **D** öffnet die Details, **M** schaltet die Maße, **X** trennt die Schichten,
 **R** setzt die Ansicht zurück und **Esc** schließt die Details. **1–6** und
-**Leertaste** bedienen weiterhin die Reise. Der Schieberegler unten springt
-an eine beliebige Stelle der 60-Sekunden-Fahrt.
+**Leertaste** bedienen die Reise; der Regler unten springt zu jedem Zeitpunkt.
 
-Modellmaße, errechnete Sollwerte und fehlende reale Prüfnachweise sind getrennt.
-Die eingeblendeten Maße folgen dem Demo-Modell live, nicht einer angeschlossenen
-Messmaschine. Der Prüfbereich erfindet keine abgeschlossenen Prüfungen.
+Modellmaße, errechnete Sollwerte und fehlende echte Prüfnachweise bleiben getrennt.
+Die Maße folgen dem Demo-Modell live, nicht einer angeschlossenen Messmaschine.
+Die Prüfung erfindet keine erledigten Messungen. Die Fahrt verwirft bei langsamen
+Grafikgeräten keine verstrichene Zeit; beim Verbergen der Seite pausiert sie.
 
 LINE proves the build; WAWI still books the hours.
 '''
-        readme.write_text(content, encoding='utf-8')
-    print(json.dumps({'status': 'MATERIALIZED', 'sha256': TARGET, 'bytes': path.stat().st_size}))
+        readme.write_text(content,encoding='utf-8')
+    print(json.dumps({'status':'MATERIALIZED','sha256':TARGET,'bytes':len(result)}))
 
 if __name__ == '__main__':
     main()
