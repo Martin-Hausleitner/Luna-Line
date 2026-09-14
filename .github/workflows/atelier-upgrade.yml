@@ -2,7 +2,10 @@ name: Atelier upgrade and browser QA
 on:
   push:
     branches: [main]
-    paths: [qa/atelier-payload.json.gz.b64]
+    paths:
+      - qa/atelier-payload.json.gz.b64
+      - qa/atelier-transfer/repair.json
+      - .github/workflows/atelier-upgrade.yml
   workflow_dispatch:
 permissions:
   contents: write
@@ -23,6 +26,17 @@ jobs:
           python3 - <<'PY'
           import base64, gzip, hashlib, json, subprocess
           from pathlib import Path
+          for name, repair in json.loads(Path('qa/atelier-transfer/repair.json').read_text()).items():
+              assert name in ['qa/atelier-transfer/01.b64', 'qa/atelier-transfer/03.b64']
+              path = Path(name)
+              text = path.read_text().strip()
+              actual = hashlib.sha256(text.encode()).hexdigest()
+              if actual != repair['outputSha256']:
+                  assert actual == repair['inputSha256'], 'Unexpected transfer bytes: ' + name
+                  for start, end, replacement in reversed(repair['edits']):
+                      text = text[:start] + replacement + text[end:]
+                  assert hashlib.sha256(text.encode()).hexdigest() == repair['outputSha256']
+                  path.write_text(text)
           encoded = ''.join(Path('qa/atelier-transfer/%02d.b64' % i).read_text().strip() for i in range(12)) + Path('qa/atelier-payload.json.gz.b64').read_text().strip()
           assert hashlib.sha256(encoded.encode()).hexdigest() == '21b3417a69a9e015561bfb98f9d85dcaca3e25550c8ba5626e21a648d5793269', 'Source transfer hash mismatch'
           package = json.loads(gzip.decompress(base64.b64decode(encoded, validate=True)))
@@ -55,7 +69,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Luna-Line.html README.md qa/atelier
+          git add Luna-Line.html README.md qa/atelier qa/atelier-transfer
           git diff --cached --quiet || git commit -m 'Ship LUNA LINE Atelier with expanded 3D, construction tools and verified browser evidence'
           git push origin HEAD:main
       - name: Publish the same bytes at Pages root
