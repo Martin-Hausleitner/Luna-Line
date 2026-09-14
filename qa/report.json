@@ -1,0 +1,462 @@
+{
+  "started": "2026-09-14T01:32:00.902Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.5.0"
+  },
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "sourceSHA256": "dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c",
+  "tests": [
+    {
+      "name": "Native WebGPU rendering",
+      "status": "PASS",
+      "detail": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 2,
+        "seconds": 0,
+        "station": 0,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          4.632880424595411,
+          3.3,
+          6.9
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "CEO overlay off on startup",
+      "status": "PASS"
+    },
+    {
+      "name": "Single runtime / shared contracts",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 1 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 2 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 3 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 4 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 5 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 6 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "All six station ticks in frame",
+      "status": "PASS"
+    },
+    {
+      "name": "C shows 4.2 / 5.0 Soll",
+      "status": "PASS"
+    },
+    {
+      "name": "Key 2 jumps to cut",
+      "status": "PASS"
+    },
+    {
+      "name": "Space plays and pauses",
+      "status": "PASS",
+      "detail": {
+        "start": 12,
+        "end": 13.297999999999986
+      }
+    },
+    {
+      "name": "Paused time remains frozen",
+      "status": "PASS"
+    },
+    {
+      "name": "Local persistence version/id",
+      "status": "PASS"
+    },
+    {
+      "name": "No external runtime requests",
+      "status": "PASS",
+      "detail": [
+        "http://127.0.0.1:49618/Luna-Line.html?station=1",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
+        "http://127.0.0.1:49618/Luna-Line.html?renderer=2d&station=5",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
+        "http://127.0.0.1:49618/Luna-Line.html?station=6",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
+      ]
+    },
+    {
+      "name": "One real 60-second playback",
+      "status": "PASS",
+      "detail": {
+        "wallSeconds": 60.016,
+        "end": {
+          "renderer": "webgpu",
+          "gpuError": null,
+          "frames": 3785,
+          "seconds": 60,
+          "station": 5,
+          "id": "TA2026-00009-T04",
+          "dimensionsMM": [
+            597,
+            715,
+            19
+          ],
+          "seed": 409,
+          "playing": false,
+          "overview": false,
+          "storage": true,
+          "camera": [
+            62.86711957540459,
+            2.0402204575630374,
+            5.5
+          ],
+          "vertices": 31644
+        }
+      }
+    },
+    {
+      "name": "Canvas2D fallback not blank",
+      "status": "PASS"
+    },
+    {
+      "name": "Canvas2D moving journey",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile ticks and inscription fit",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "shots": [
+    {
+      "name": "01-lager.png",
+      "bytes": 2024312,
+      "sha256": "69784227f8324df3e8dfc637dd9c08fe8b46a524bdfcec1ec07d75120981b251",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 3,
+        "seconds": 2,
+        "station": 0,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          4.772841443249847,
+          3.332621368008853,
+          6.9
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "02-cut.png",
+      "bytes": 2158943,
+      "sha256": "a67f263a4b45f7349dfa315678cb10f1e0321af5141aedca582b09ab7151b290",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 4,
+        "seconds": 12,
+        "station": 1,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          15.372841443249847,
+          4.432621368008853,
+          5.2
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "03-edge.png",
+      "bytes": 2005241,
+      "sha256": "b083800bad5301ed1ca23b73a8686785968363537a2e8ac9ec80e3adb40d3199",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 5,
+        "seconds": 22,
+        "station": 2,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          26.242288754835805,
+          2.5,
+          4.76895553377957
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "04-press.png",
+      "bytes": 2005944,
+      "sha256": "310d25e5edc744a840abe9b44b20d16c3d66f41947b2716d7429b6e9934d5851",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 6,
+        "seconds": 32,
+        "station": 3,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          38.87284144324985,
+          2.632621368008853,
+          4.4
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "05-crate.png",
+      "bytes": 2040715,
+      "sha256": "871235fc8a1642142d2a3f476c12c863e831489b435dbf720274e284af6d3870",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 7,
+        "seconds": 42,
+        "station": 4,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          52.47284144324985,
+          3.432621368008853,
+          7.8
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "06-evening.png",
+      "bytes": 2116991,
+      "sha256": "44538da7ce47e868d777677a084d555d6199ded1f0ff44667cbbcb26f2d5e10b",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 8,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          62.87284144324985,
+          2.082621368008853,
+          5.5
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "07-full-line.png",
+      "bytes": 1574967,
+      "sha256": "067fd91e7f8790d51a16f508666c7e74599a2dbc3d5e07b4213da8f90b4f95d0",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 9,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": true,
+        "storage": true,
+        "camera": [
+          40,
+          25,
+          46
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "08-fallback.png",
+      "bytes": 1773234,
+      "sha256": "686811e70946c3fa6be1ab277755774165461a3674783386c9540b047a44c80c",
+      "state": {
+        "renderer": "canvas2d",
+        "gpuError": null,
+        "frames": 1,
+        "seconds": 40,
+        "station": 4,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          52.33288042459541,
+          3.4,
+          7.8
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "09-mobile.png",
+      "bytes": 53086,
+      "sha256": "22fdc5da6c8bd0959dfa65e0880738f40d344c02e2ec7ca13985660c8662f8a6",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 3,
+        "seconds": 50,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          62.73288042459541,
+          2.05,
+          5.5
+        ],
+        "vertices": 31644
+      }
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:49618/Luna-Line.html?station=1",
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
+    "http://127.0.0.1:49618/Luna-Line.html?renderer=2d&station=5",
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
+    "http://127.0.0.1:49618/Luna-Line.html?station=6",
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
+  ],
+  "base": "http://127.0.0.1:49618/Luna-Line.html",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/152.0.7977.83",
+    "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "jsVersion": "15.2.124.21"
+  },
+  "adapter": {
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "description": ""
+  },
+  "initial": {
+    "renderer": "webgpu",
+    "gpuError": null,
+    "frames": 2,
+    "seconds": 0,
+    "station": 0,
+    "id": "TA2026-00009-T04",
+    "dimensionsMM": [
+      597,
+      715,
+      19
+    ],
+    "seed": 409,
+    "playing": false,
+    "overview": false,
+    "storage": true,
+    "camera": [
+      4.632880424595411,
+      3.3,
+      6.9
+    ],
+    "vertices": 31644
+  },
+  "status": "PASS",
+  "finished": "2026-09-14T01:33:21.582Z"
+}
