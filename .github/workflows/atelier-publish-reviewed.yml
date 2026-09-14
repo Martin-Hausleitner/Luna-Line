@@ -28,7 +28,7 @@ jobs:
           run-id: 34833631791
           github-token: ${{ github.token }}
           path: /tmp/atelier-reviewed
-      - name: Verify the reviewed runtime and every native screenshot before promotion
+      - name: Verify reviewed runtime and native screenshot hashes before promotion
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -55,39 +55,15 @@ jobs:
           p=Path('README.md'); text=p.read_text()
           start=text.index('`qa/atelier/run-qa.py` uses Python Playwright')
           end=text.index('\n\n```sh',start)
-          text=text[:start]+"`qa/atelier/run-qa.py` uses Python Playwright for development-time testing only. The reviewed runtime passed **102/102 checks on macOS 15 with native Apple WebGPU and Chrome 152.0.7977.83** in Actions run 34833631791. Sixteen actual browser screenshots include all stations, construction details, Canvas2D and mobile. The complete journey took **60.064 wall seconds**. This is a hosted Apple machine, not a performance claim for the user's Mac. Publication promotes that exact checked artifact; live Pages is tested separately, with strict exit and report gates. The original source reconstruction workflow is manual-only and cannot publish an older build."+text[end:]
-          text += '\n\nThe pre-Atelier spatial revision remains preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA reports describe earlier revisions; current Atelier evidence is in `qa/atelier/`. The canonical runtime is 128,011 bytes; SHA-256: `'+expected+'`.\n'
+          paragraph='`qa/atelier/run-qa.py` uses Python Playwright for development-time testing only. The reviewed runtime passed **102/102 checks on macOS 15 with native Apple WebGPU and Chrome 152.0.7977.83** in Actions run 34833631791. Sixteen actual browser screenshots include all stations, construction details, Canvas2D and mobile. The complete journey took **60.064 wall seconds**. This is a hosted Apple machine, not a performance claim for the user\'s Mac. Publication promotes that exact checked artifact; live Pages is tested separately, with strict exit and report gates. The original source reconstruction workflow is manual-only and cannot publish an older build.'
+          text=text[:start]+paragraph+text[end:]
+          text+='\n\nThe pre-Atelier spatial revision is preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA describes earlier revisions; current Atelier evidence is in `qa/atelier/`. Canonical runtime: 128,011 bytes; SHA-256 `'+expected+'`.\n'
           p.write_text(text)
-          Path('qa/atelier/VISION.md').write_text('''# LUNA LINE Atelier — reviewed native browser evidence
-
-Runtime SHA-256: cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec
-Native run: 34833631791. macOS 15, Apple WebGPU, Chrome 152.0.7977.83.
-102/102 automated checks PASS. Sixteen real screenshots. Complete playback: 60.064 wall seconds.
-
-The screenshots were opened and visually reviewed before this artifact was promoted. Full-resolution cuts, exploded cabinet, open crate and evening kitchen were reviewed individually; the remaining station scenes and overview were also checked in a contact sheet. No generated concept image is presented as execution evidence.
-
-| Visual gate | Result | Evidence |
-|---|---|---|
-| One connected journey | PASS | 07-full-line.png; camera spline, blue floor thread and six station ticks |
-| Same tracked front from cut to home | PASS | 02-cut.png and 06-evening.png; fixed dimensions, oak grain 409 and corner marks |
-| Workshop and home visibly distinct | PASS | Cool factory versus warm evening cabinetry and under-cabinet lights |
-| Visible waste at the saw | PASS | 02-cut.png; aperture, separate offcuts and explicit 12 percent demo assumption |
-| Evening kitchen presentation | PASS | 06-evening.png; warm spatial kitchen, stone, oak, lights, windows and readable inscriptions |
-| Part identity readable in each shot | PASS | One persistent TA2026-00009 / T04 inscription and leader |
-| Quiet LUNA LINE and EDV Hausleitner branding | PASS | Corner identity and required footer |
-| No website header, chat or calendar grid | PASS | Spatial presentation with restrained inspection controls |
-| Cabinet construction improvement | PASS | 11-exploded.png; real separate sides, shelves, back, hardware and front |
-| Packed cabinet visible in the crate | PASS | 16-crate-open.png; inner cabinet, foam, straps, raised lid and van |
-
-The result is detailed stylized real-time 3D, not a claim of photorealistic global illumination or production-ready CNC. Native checks on Apple replace the failed Linux graphics attempts; those failures are not counted as successful proof. Live screenshots require a separate check after deployment; see live/report.json for execution and the subsequent live visual review.
-''')
-          # Retire only our obsolete automatic publisher. Preserve the first verified
-          # reconstruction block because the native source-reproduction workflow uses it.
           old=Path('.github/workflows/atelier-upgrade.yml').read_text()
           code=old.split("python3 - <<'PY'",1)[1].split('\n          PY',1)[0]
           manual="name: Atelier source reconstruction (manual only)\non:\n  workflow_dispatch:\npermissions:\n  contents: read\njobs:\n  reconstruct:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - name: Verify archived first-party source transfer\n        run: |\n          python3 - <<'PY'"+code+'\n          PY\n'
           Path('.github/workflows/atelier-upgrade.yml').write_text(manual)
-          print('Reviewed artifact verified; no runtime bytes changed.')
+          print('Reviewed artifact verified. No runtime bytes changed.')
           PY
       - name: Commit reviewed canonical runtime and evidence without rewriting history
         run: |
@@ -97,7 +73,7 @@ The result is detailed stylized real-time 3D, not a claim of photorealistic glob
           git add Luna-Line.html README.md qa/atelier .github/workflows/atelier-upgrade.yml
           git diff --cached --quiet || git commit -m 'Ship reviewed LUNA LINE Atelier: 68 additions and 102 native Apple checks passed'
           git push origin HEAD:main
-      - name: Publish the same verified bytes at Pages root
+      - name: Publish identical verified bytes at Pages root
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -130,7 +106,7 @@ The result is detailed stylized real-time 3D, not a claim of photorealistic glob
           else:
               raise SystemExit('Pages did not serve the exact reviewed runtime.')
           PY
-      - name: Native live browser checks and real cut and evening screenshots
+      - name: Native live browser checks and actual cut and evening screenshots
         run: |
           set -euo pipefail
           python3 -m venv /tmp/luna-live
@@ -146,7 +122,8 @@ The result is detailed stylized real-time 3D, not a claim of photorealistic glob
           assert r['runtimeSha256']==hashlib.sha256(Path('Luna-Line.html').read_bytes()).hexdigest()
           assert {s['file'] for s in r['shots']} >= {'02-cut.png','06-evening.png'}
           assert all(s['renderer']=='webgpu' for s in r['shots'])
-          p=Path('README.md');p.write_text(p.read_text()+'\nLive Pages execution: **'+str(len(r['tests']))+'/'+str(len(r['tests']))+' checks PASS**, native Apple WebGPU. [Live report](qa/atelier/live/report.json), [live cut](qa/atelier/live/02-cut.png), [live evening](qa/atelier/live/06-evening.png). The live runtime matched the reviewed canonical SHA-256 before capture.\n')
+          p=Path('README.md')
+          p.write_text(p.read_text()+'\nLive Pages execution: **'+str(len(r['tests']))+'/'+str(len(r['tests']))+' checks PASS**, native Apple WebGPU. [Live report](qa/atelier/live/report.json), [live cut](qa/atelier/live/02-cut.png), [live evening](qa/atelier/live/06-evening.png). Live bytes matched the reviewed canonical SHA-256 before capture.\n')
           print('Strict live gate PASS',len(r['tests']))
           PY
           git add README.md qa/atelier/live
@@ -159,6 +136,5 @@ The result is detailed stylized real-time 3D, not a claim of photorealistic glob
           path: |
             Luna-Line.html
             README.md
-            qa/atelier/VISION.md
             qa/atelier/live/
           retention-days: 14
