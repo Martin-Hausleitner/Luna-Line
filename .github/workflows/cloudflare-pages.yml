@@ -1,0 +1,151 @@
+name: Publish Luna Line to Cloudflare
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/cloudflare-pages.yml]
+permissions:
+  contents: read
+concurrency:
+  group: luna-line-cloudflare
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Verify tested runtime and current GitHub Pages; prepare upload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, time, urllib.request, zipfile
+          from pathlib import Path
+          data = Path('Luna-Line.html').read_bytes()
+          sha = hashlib.sha256(data).hexdigest()
+          report = json.loads(Path('qa/atelier/report.json').read_text())
+          assert report['status'] == 'PASS' and report['runtimeSha256'] == sha
+          assert report['tests'] and all(t['status'] == 'PASS' for t in report['tests'])
+          out = Path('_publish'); out.mkdir()
+          site = out / 'site'; site.mkdir()
+          (site / 'index.html').write_bytes(data)
+          with zipfile.ZipFile(out / 'Luna-Line-Cloudflare.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+              z.writestr('index.html', data)
+          url = 'https://martin-hausleitner.github.io/Luna-Line/'
+          receipt = {'sourceCommit': os.environ['GITHUB_SHA'], 'runtimeSha256': sha, 'bytes': len(data), 'githubPages': {'url': url, 'status': 'UNVERIFIED'}, 'cloudflare': {'status': 'NOT_DEPLOYED'}}
+          for attempt in range(6):
+              try:
+                  req = urllib.request.Request(url + '?publish-check=' + str(time.time_ns()), headers={'Cache-Control': 'no-cache'})
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      body = r.read(); status = r.status
+                  if status == 200 and hashlib.sha256(body).hexdigest() == sha:
+                      receipt['githubPages'].update(status='PASS', httpStatus=status)
+                      break
+              except Exception as exc:
+                  print('Pages verification retry:', type(exc).__name__)
+              time.sleep(3)
+          (out / 'receipt.json').write_text(json.dumps(receipt, indent=2))
+          print(json.dumps(receipt, indent=2))
+          assert receipt['githubPages']['status'] == 'PASS', 'Current Pages does not match the tested runtime; publication stopped.'
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('GitHub Pages: PASS (HTTP 200, identical tested HTML).\n\nRuntime SHA-256: `' + sha + '`\n')
+          PY
+      - name: Check Cloudflare credentials without displaying their values
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          missing = [name for name in ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID'] if not os.environ.get(name, '').strip()]
+          if missing:
+              p = Path('_publish/receipt.json'); receipt = json.loads(p.read_text())
+              receipt['cloudflare'] = {'status': 'BLOCKED', 'missingConfiguration': missing}
+              p.write_text(json.dumps(receipt, indent=2))
+              message = 'Cloudflare BLOCKED: missing repository configuration: ' + ', '.join(missing)
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f: f.write('\n' + message + '\n')
+              raise SystemExit(message)
+          print('Cloudflare credential presence: PASS. No values displayed.')
+          PY
+      - name: Resolve or create the Luna Line Pages project
+        id: project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request, urllib.error
+          account = os.environ['CLOUDFLARE_ACCOUNT_ID'].strip()
+          assert re.fullmatch('[a-fA-F0-9]{32}', account), 'Invalid Cloudflare account ID format'
+          base = 'https://api.cloudflare.com/client/v4/accounts/' + account + '/pages/projects'
+          headers = {'Authorization': 'Bearer ' + os.environ['CLOUDFLARE_API_TOKEN'].strip(), 'Content-Type': 'application/json'}
+          def call(url, payload=None):
+              req = urllib.request.Request(url, data=None if payload is None else json.dumps(payload).encode(), headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as response: value = json.load(response)
+              assert value.get('success'), 'Cloudflare API did not accept project request'
+              return value['result']
+          try:
+              project = call(base + '/luna-line')
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404: raise SystemExit('Cloudflare project lookup failed: HTTP ' + str(exc.code))
+              project = call(base, {'name': 'luna-line', 'production_branch': 'main'})
+          config = (project.get('source') or {}).get('config') or {}
+          if config.get('repo_name'):
+              assert config.get('repo_name').lower() == 'luna-line' and config.get('owner', '').lower() == 'martin-hausleitner', 'Existing Cloudflare project belongs to a different repository'
+          branch = project.get('production_branch') or 'main'
+          domain = project['subdomain']
+          assert re.fullmatch('[A-Za-z0-9][A-Za-z0-9._/-]*', branch), 'Unsafe production branch'
+          assert re.fullmatch('[a-z0-9-]+[.]pages[.]dev', domain), 'Unexpected Pages domain'
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f: f.write('branch=' + branch + '\nurl=https://' + domain + '/\n')
+          print('Cloudflare project resolved: luna-line')
+          PY
+      - name: Deploy only the reviewed HTML to Cloudflare Pages
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          command: pages deploy _publish/site --project-name=luna-line --branch=${{ steps.project.outputs.branch }} --commit-dirty=true
+      - name: Verify the public Cloudflare deployment serves identical bytes
+        env:
+          SITE_URL: ${{ steps.project.outputs.url }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, time, urllib.request
+          from pathlib import Path
+          p = Path('_publish/receipt.json'); receipt = json.loads(p.read_text())
+          url = os.environ['SITE_URL']; expected = receipt['runtimeSha256']
+          receipt['cloudflare'] = {'status': 'DEPLOYED_UNVERIFIED', 'url': url}
+          p.write_text(json.dumps(receipt, indent=2))
+          for attempt in range(18):
+              try:
+                  req = urllib.request.Request(url + '?verify=' + str(time.time_ns()), headers={'Cache-Control': 'no-cache'})
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      body = r.read(); status = r.status
+                  if status == 200 and hashlib.sha256(body).hexdigest() == expected:
+                      receipt['cloudflare'].update(status='PASS', httpStatus=status)
+                      p.write_text(json.dumps(receipt, indent=2))
+                      print(json.dumps(receipt, indent=2))
+                      with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f: f.write('\nCloudflare: PASS (identical HTML): ' + url + '\n')
+                      break
+              except Exception as exc:
+                  print('Cloudflare verification retry:', type(exc).__name__)
+              time.sleep(5)
+          else:
+              raise SystemExit('Cloudflare deployment could not be verified; do not report PASS.')
+          PY
+      - name: Preserve the upload ZIP and deployment receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: Luna-Line-Cloudflare-Publish
+          path: |
+            _publish/Luna-Line-Cloudflare.zip
+            _publish/receipt.json
+          if-no-files-found: error
+          retention-days: 14
