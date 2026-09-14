@@ -23,7 +23,9 @@ jobs:
           python3 - <<'PY'
           import base64, gzip, hashlib, json
           from pathlib import Path
-          package = json.loads(gzip.decompress(base64.b64decode(Path('qa/atelier-payload.json.gz.b64').read_text())))
+          encoded = ''.join(Path('qa/atelier-transfer/%02d.b64' % i).read_text().strip() for i in range(3)) + Path('qa/atelier-payload.json.gz.b64').read_text().strip()
+          assert hashlib.sha256(encoded.encode()).hexdigest() == '8d0e456269635784ce1575b5d34c759ff8f11fe733d8935659151d708e45805f', 'Source transfer hash mismatch'
+          package = json.loads(gzip.decompress(base64.b64decode(encoded, validate=True)))
           for name, item in package['files'].items():
               path = Path(name)
               if path.is_absolute() or '..' in path.parts or not (name in ['Luna-Line.html', 'README.md'] or name.startswith('qa/atelier/')):
