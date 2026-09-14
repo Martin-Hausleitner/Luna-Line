@@ -1,0 +1,164 @@
+name: Publish reviewed LUNA LINE Atelier
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/atelier-publish-reviewed.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+  pages: write
+concurrency:
+  group: luna-line-reviewed-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 14
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: Luna-Line-Atelier-Apple
+          run-id: 34833631791
+          github-token: ${{ github.token }}
+          path: /tmp/atelier-reviewed
+      - name: Verify the reviewed runtime and every native screenshot before promotion
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil
+          root=Path('/tmp/atelier-reviewed')
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          expected='cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec'
+          assert sha(root/'Luna-Line.html')==expected
+          report=json.loads((root/'qa/atelier/report.json').read_text())
+          assert report['status']=='PASS' and len(report['tests'])==102
+          assert all(t['status']=='PASS' for t in report['tests'])
+          assert report['runtimeSha256']==expected and report['adapter']['vendor']=='apple'
+          assert len(report['shots'])==16 and not report['errors']
+          for shot in report['shots']:
+              p=root/'qa/atelier'/shot['file']
+              assert sha(p)==shot['sha256'] and p.stat().st_size==shot['bytes']
+              if shot['file']!='09-mobile.png':
+                  assert (shot['width'],shot['height'])==(1920,1080)
+              if shot['file'] not in ['08-fallback.png','09-mobile.png']:
+                  assert shot['renderer']=='webgpu'
+          shutil.copy2(root/'Luna-Line.html','Luna-Line.html')
+          shutil.copy2(root/'README.md','README.md')
+          shutil.copytree(root/'qa/atelier','qa/atelier',dirs_exist_ok=True)
+          p=Path('README.md'); text=p.read_text()
+          start=text.index('`qa/atelier/run-qa.py` uses Python Playwright')
+          end=text.index('\n\n```sh',start)
+          text=text[:start]+"`qa/atelier/run-qa.py` uses Python Playwright for development-time testing only. The reviewed runtime passed **102/102 checks on macOS 15 with native Apple WebGPU and Chrome 152.0.7977.83** in Actions run 34833631791. Sixteen actual browser screenshots include all stations, construction details, Canvas2D and mobile. The complete journey took **60.064 wall seconds**. This is a hosted Apple machine, not a performance claim for the user's Mac. Publication promotes that exact checked artifact; live Pages is tested separately, with strict exit and report gates. The original source reconstruction workflow is manual-only and cannot publish an older build."+text[end:]
+          text += '\n\nThe pre-Atelier spatial revision remains preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA reports describe earlier revisions; current Atelier evidence is in `qa/atelier/`. The canonical runtime is 128,011 bytes; SHA-256: `'+expected+'`.\n'
+          p.write_text(text)
+          Path('qa/atelier/VISION.md').write_text('''# LUNA LINE Atelier — reviewed native browser evidence
+
+Runtime SHA-256: cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec
+Native run: 34833631791. macOS 15, Apple WebGPU, Chrome 152.0.7977.83.
+102/102 automated checks PASS. Sixteen real screenshots. Complete playback: 60.064 wall seconds.
+
+The screenshots were opened and visually reviewed before this artifact was promoted. Full-resolution cuts, exploded cabinet, open crate and evening kitchen were reviewed individually; the remaining station scenes and overview were also checked in a contact sheet. No generated concept image is presented as execution evidence.
+
+| Visual gate | Result | Evidence |
+|---|---|---|
+| One connected journey | PASS | 07-full-line.png; camera spline, blue floor thread and six station ticks |
+| Same tracked front from cut to home | PASS | 02-cut.png and 06-evening.png; fixed dimensions, oak grain 409 and corner marks |
+| Workshop and home visibly distinct | PASS | Cool factory versus warm evening cabinetry and under-cabinet lights |
+| Visible waste at the saw | PASS | 02-cut.png; aperture, separate offcuts and explicit 12 percent demo assumption |
+| Evening kitchen presentation | PASS | 06-evening.png; warm spatial kitchen, stone, oak, lights, windows and readable inscriptions |
+| Part identity readable in each shot | PASS | One persistent TA2026-00009 / T04 inscription and leader |
+| Quiet LUNA LINE and EDV Hausleitner branding | PASS | Corner identity and required footer |
+| No website header, chat or calendar grid | PASS | Spatial presentation with restrained inspection controls |
+| Cabinet construction improvement | PASS | 11-exploded.png; real separate sides, shelves, back, hardware and front |
+| Packed cabinet visible in the crate | PASS | 16-crate-open.png; inner cabinet, foam, straps, raised lid and van |
+
+The result is detailed stylized real-time 3D, not a claim of photorealistic global illumination or production-ready CNC. Native checks on Apple replace the failed Linux graphics attempts; those failures are not counted as successful proof. Live screenshots require a separate check after deployment; see live/report.json for execution and the subsequent live visual review.
+''')
+          # Retire only our obsolete automatic publisher. Preserve the first verified
+          # reconstruction block because the native source-reproduction workflow uses it.
+          old=Path('.github/workflows/atelier-upgrade.yml').read_text()
+          code=old.split("python3 - <<'PY'",1)[1].split('\n          PY',1)[0]
+          manual="name: Atelier source reconstruction (manual only)\non:\n  workflow_dispatch:\npermissions:\n  contents: read\njobs:\n  reconstruct:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - name: Verify archived first-party source transfer\n        run: |\n          python3 - <<'PY'"+code+'\n          PY\n'
+          Path('.github/workflows/atelier-upgrade.yml').write_text(manual)
+          print('Reviewed artifact verified; no runtime bytes changed.')
+          PY
+      - name: Commit reviewed canonical runtime and evidence without rewriting history
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Luna-Line.html README.md qa/atelier .github/workflows/atelier-upgrade.yml
+          git diff --cached --quiet || git commit -m 'Ship reviewed LUNA LINE Atelier: 68 additions and 102 native Apple checks passed'
+          git push origin HEAD:main
+      - name: Publish the same verified bytes at Pages root
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git worktree add /tmp/luna-pages origin/gh-pages
+          cp Luna-Line.html /tmp/luna-pages/index.html
+          cd /tmp/luna-pages
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Publish visually reviewed LUNA LINE Atelier at Pages root'
+          git push origin HEAD:gh-pages
+          gh api -X POST repos/${{ github.repository }}/pages/builds
+      - name: Wait for identical live runtime bytes
+        run: |
+          python3 - <<'PY'
+          import hashlib, time, urllib.request
+          from pathlib import Path
+          expected=hashlib.sha256(Path('Luna-Line.html').read_bytes()).hexdigest()
+          for attempt in range(36):
+              try:
+                  url='https://martin-hausleitner.github.io/Luna-Line/?atelier-verify='+str(time.time_ns())
+                  request=urllib.request.Request(url,headers={'Cache-Control':'no-cache'})
+                  data=urllib.request.urlopen(request,timeout=20).read()
+                  actual=hashlib.sha256(data).hexdigest()
+                  print('LIVE',len(data),actual,flush=True)
+                  if actual==expected:
+                      break
+              except Exception as exc:
+                  print(type(exc).__name__,str(exc),flush=True)
+              time.sleep(8)
+          else:
+              raise SystemExit('Pages did not serve the exact reviewed runtime.')
+          PY
+      - name: Native live browser checks and real cut and evening screenshots
+        run: |
+          set -euo pipefail
+          python3 -m venv /tmp/luna-live
+          /tmp/luna-live/bin/python -m pip install playwright==1.55.0
+          mkdir -p qa/atelier/live
+          /tmp/luna-live/bin/python qa/atelier/run-qa.py --browser '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --url https://martin-hausleitner.github.io/Luna-Line/ --output qa/atelier/live --live --require-webgpu 2>&1 | tee qa/atelier/live/execution.log
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          r=json.loads(Path('qa/atelier/live/report.json').read_text())
+          assert r['status']=='PASS' and all(t['status']=='PASS' for t in r['tests'])
+          assert r['adapter']['vendor']=='apple' and not r['errors']
+          assert r['runtimeSha256']==hashlib.sha256(Path('Luna-Line.html').read_bytes()).hexdigest()
+          assert {s['file'] for s in r['shots']} >= {'02-cut.png','06-evening.png'}
+          assert all(s['renderer']=='webgpu' for s in r['shots'])
+          p=Path('README.md');p.write_text(p.read_text()+'\nLive Pages execution: **'+str(len(r['tests']))+'/'+str(len(r['tests']))+' checks PASS**, native Apple WebGPU. [Live report](qa/atelier/live/report.json), [live cut](qa/atelier/live/02-cut.png), [live evening](qa/atelier/live/06-evening.png). The live runtime matched the reviewed canonical SHA-256 before capture.\n')
+          print('Strict live gate PASS',len(r['tests']))
+          PY
+          git add README.md qa/atelier/live
+          git diff --cached --quiet || git commit -m 'Record strict native live Pages acceptance and actual Atelier screenshots'
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Luna-Line-Atelier-Live
+          path: |
+            Luna-Line.html
+            README.md
+            qa/atelier/VISION.md
+            qa/atelier/live/
+          retention-days: 14
