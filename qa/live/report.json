@@ -1,0 +1,212 @@
+{
+  "started": "2026-09-14T01:35:26.399Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.5.0"
+  },
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "sourceSHA256": "dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c",
+  "tests": [
+    {
+      "name": "Native WebGPU rendering",
+      "status": "PASS",
+      "detail": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 2,
+        "seconds": 0,
+        "station": 0,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          4.632880424595411,
+          3.3,
+          6.9
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "CEO overlay off on startup",
+      "status": "PASS"
+    },
+    {
+      "name": "Single runtime / shared contracts",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 1 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 2 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 3 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 4 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 5 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Station 6 / readable identity",
+      "status": "PASS"
+    },
+    {
+      "name": "C shows 4.2 / 5.0 Soll",
+      "status": "PASS"
+    },
+    {
+      "name": "Key 2 jumps to cut",
+      "status": "PASS"
+    },
+    {
+      "name": "Space plays and pauses",
+      "status": "PASS",
+      "detail": {
+        "start": 12,
+        "end": 13.289899999999978
+      }
+    },
+    {
+      "name": "Paused time remains frozen",
+      "status": "PASS"
+    },
+    {
+      "name": "Local persistence version/id",
+      "status": "PASS"
+    },
+    {
+      "name": "No external runtime requests",
+      "status": "PASS",
+      "detail": [
+        "https://martin-hausleitner.github.io/Luna-Line/?station=1",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
+      ]
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "shots": [
+    {
+      "name": "02-cut.png",
+      "bytes": 2158943,
+      "sha256": "a67f263a4b45f7349dfa315678cb10f1e0321af5141aedca582b09ab7151b290",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 4,
+        "seconds": 12,
+        "station": 1,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          15.372841443249847,
+          4.432621368008853,
+          5.2
+        ],
+        "vertices": 31644
+      }
+    },
+    {
+      "name": "06-evening.png",
+      "bytes": 2116991,
+      "sha256": "44538da7ce47e868d777677a084d555d6199ded1f0ff44667cbbcb26f2d5e10b",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 8,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          62.87284144324985,
+          2.082621368008853,
+          5.5
+        ],
+        "vertices": 31644
+      }
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "https://martin-hausleitner.github.io/Luna-Line/?station=1",
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
+  ],
+  "base": "https://martin-hausleitner.github.io/Luna-Line/",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/152.0.7977.83",
+    "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "jsVersion": "15.2.124.21"
+  },
+  "adapter": {
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "description": ""
+  },
+  "initial": {
+    "renderer": "webgpu",
+    "gpuError": null,
+    "frames": 2,
+    "seconds": 0,
+    "station": 0,
+    "id": "TA2026-00009-T04",
+    "dimensionsMM": [
+      597,
+      715,
+      19
+    ],
+    "seed": 409,
+    "playing": false,
+    "overview": false,
+    "storage": true,
+    "camera": [
+      4.632880424595411,
+      3.3,
+      6.9
+    ],
+    "vertices": 31644
+  },
+  "status": "PASS",
+  "finished": "2026-09-14T01:35:38.094Z"
+}
