@@ -1,29 +1,16 @@
-name: Atelier upgrade and browser QA
+name: Atelier source reconstruction (manual only)
 on:
-  push:
-    branches: [main]
-    paths:
-      - qa/atelier-payload.json.gz.b64
-      - qa/atelier-transfer/repair.json
-      - .github/workflows/atelier-upgrade.yml
   workflow_dispatch:
 permissions:
-  contents: write
-  pages: write
-concurrency:
-  group: luna-line-atelier
-  cancel-in-progress: false
+  contents: read
 jobs:
-  build-and-verify:
+  reconstruct:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      LUNA_HEADED: '1'
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Expand the self-contained, first-party source package
+      - name: Verify archived first-party source transfer
         run: |
           python3 - <<'PY'
           import base64, gzip, hashlib, json, subprocess
@@ -57,64 +44,5 @@ jobs:
               assert hashlib.sha256(data).hexdigest() == item['sha256'], name
               path.parent.mkdir(parents=True, exist_ok=True)
               path.write_bytes(data)
-          print('All first-party files verified before execution.')
+          print('All first-party files verified before execution. This manual workflow never publishes.')
           PY
-          python3 qa/atelier/environment-fix.py
-      - name: Install browser test tools, never runtime dependencies
-        run: |
-          python3 -m pip install playwright==1.55.0
-          python3 -m playwright install --with-deps chromium
-          sudo apt-get install -y xvfb xauth libvulkan1 mesa-vulkan-drivers
-      - name: Run local browser gates and capture real WebGPU scenes
-        run: |
-          python3 -m http.server 8088 --bind 127.0.0.1 > /tmp/luna-server.log 2>&1 &
-          DEBUG=pw:browser xvfb-run -a --server-args='-screen 0 1920x1080x24' python3 qa/atelier/run-qa.py --url http://127.0.0.1:8088/Luna-Line.html --output qa/atelier --require-webgpu 2>&1 | tee qa/atelier/execution.log
-      - name: Commit only the tested canonical runtime and evidence
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Luna-Line.html README.md qa/atelier qa/atelier-transfer
-          git diff --cached --quiet || git commit -m 'Ship LUNA LINE Atelier with expanded 3D, construction tools and verified browser evidence'
-          git push origin HEAD:main
-      - name: Publish the same bytes at Pages root
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          git worktree add /tmp/luna-pages origin/gh-pages
-          cp Luna-Line.html /tmp/luna-pages/index.html
-          cd /tmp/luna-pages
-          git add index.html
-          git diff --cached --quiet || git commit -m 'Publish tested LUNA LINE Atelier at Pages root'
-          git push origin HEAD:gh-pages
-          gh api -X POST repos/${{ github.repository }}/pages/builds
-      - name: Verify live bytes and take live cuts and evening shots
-        run: |
-          python3 - <<'PY'
-          import hashlib, time, urllib.request
-          from pathlib import Path
-          expected = hashlib.sha256(Path('Luna-Line.html').read_bytes()).digest()
-          for attempt in range(30):
-              try:
-                  req = urllib.request.Request('https://martin-hausleitner.github.io/Luna-Line/?atelier-check=' + str(attempt), headers={'Cache-Control':'no-cache'})
-                  if hashlib.sha256(urllib.request.urlopen(req,timeout=15).read()).digest() == expected:
-                      print('Live Pages runtime is byte-for-byte identical.'); break
-              except Exception as exc:
-                  print(type(exc).__name__, str(exc))
-              time.sleep(10)
-          else:
-              raise SystemExit('Live Pages still differs from the tested canonical file.')
-          PY
-          xvfb-run -a --server-args='-screen 0 1920x1080x24' python3 qa/atelier/run-qa.py --url https://martin-hausleitner.github.io/Luna-Line/ --output qa/atelier/live --live --require-webgpu
-          git add qa/atelier/live
-          git diff --cached --quiet || git commit -m 'Record live Atelier browser checks and screenshots'
-          git push origin HEAD:main
-      - name: Preserve evidence, including any failures
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Luna-Line-Atelier-QA
-          path: |
-            qa/atelier/
-            qa/atelier-transfer/
-            qa/atelier-payload.json.gz.b64
-          retention-days: 14
