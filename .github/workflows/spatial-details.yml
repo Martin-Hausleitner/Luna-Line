@@ -2,7 +2,7 @@ name: LUNA LINE spatial details
 on:
   push:
     branches: [main]
-    paths: [qa/v2/upgrade.py, .github/workflows/spatial-details.yml]
+    paths: [qa/v2/upgrade.py]
 permissions:
   contents: write
   pages: write
@@ -29,10 +29,11 @@ jobs:
           s=Path('Luna-Line.html').read_text()
           Path('/tmp/luna-line-check.js').write_text(s.split('<script>')[1].split('</script>')[0])
           qa=Path('qa/run-qa.mjs').read_text()
-          qa=qa.replace("['--headless=new'", "['--no-sandbox','--disable-dev-shm-usage','--disable-gpu-watchdog','--enable-unsafe-swiftshader','--use-angle=swiftshader','--use-vulkan=swiftshader','--enable-features=Vulkan','--disable-vulkan-surface','--disable-skia-graphite','--headless=new'")
+          qa=qa.replace("['--headless=new'", "['--no-sandbox','--disable-dev-shm-usage','--disable-gpu-watchdog','--enable-unsafe-swiftshader','--use-angle=swiftshader','--use-webgpu-adapter=swiftshader','--headless=new'")
           qa=qa.replace("browser.stderr.on('data',d=>logs+=d.toString())", "browser.stderr.on('data',d=>{logs+=d.toString();fs.writeFileSync(path.join(out,'chrome.log'),logs)})")
           qa=qa.replace('timeout=35000','timeout=120000')
           qa=qa.replace("test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);", "test('Native WebGPU rendering',report.initial.renderer==='webgpu',report.initial);if(report.initial.renderer!=='webgpu')throw Error('Native WebGPU unavailable: '+report.initial.gpuError);")
+          qa=qa.replace("throw Error('Wait timeout '+expression)","throw Error('Wait timeout '+expression+' STATE '+JSON.stringify(await evaluate('Luna.inspect.snapshot()')))")
           extra="""
            await evaluate('Luna.inspect.jump(2);Luna.inspect.details.open("process")');await sleep(1000);await shot('10-process-detail.png');
            test('V2 native spatial measurements',await evaluate('Luna.detail.open&&Luna.detail.dimensionCount>=3&&Luna.gpu.mode==="webgpu"&&!Luna.gpu.error'));
@@ -54,11 +55,27 @@ jobs:
         run: |
           node qa/run-qa-ci.mjs --full
           python3 -c "import json; r=json.load(open('qa/report.json')); assert r['status']=='PASS', r"
+      - name: Reject corrupted software-compositor captures
+        run: |
+          python3 -c 'from PIL import Image' || python3 -m pip install --quiet Pillow==11.3.0
+          python3 - <<'PY'
+          from PIL import Image, ImageChops, ImageStat
+          import json
+          results=[]
+          for name in ['02-cut.png','06-evening.png','11-layer-detail.png']:
+              im=Image.open('qa/'+name).convert('RGB')
+              a=im.crop((640,190,1660,800)); b=im.crop((641,190,1661,800))
+              difference=sum(ImageStat.Stat(ImageChops.difference(a,b)).mean)/3
+              results.append({'image':name,'horizontalNeighborMeanDifference':difference,'status':'PASS' if difference<22 else 'FAIL'})
+          print(json.dumps(results,indent=2))
+          assert all(r['status']=='PASS' for r in results), 'Corrupt high-frequency raster; manual vision review required.'
+          open('qa/v2/raster-check.json','w').write(json.dumps(results,indent=2))
+          PY
       - name: Commit validated source and local evidence
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Luna-Line.html README.md qa/*.png qa/report.json qa/run-qa-ci.mjs qa/v2/BUILD.json
+          git add Luna-Line.html README.md qa/*.png qa/report.json qa/run-qa-ci.mjs qa/v2/BUILD.json qa/v2/raster-check.json
           if ! git diff --cached --quiet; then
             git commit -m 'Ship LUNA LINE v2 with native WebGPU regression evidence'
             git push origin HEAD:main
