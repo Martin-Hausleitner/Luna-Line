@@ -21,14 +21,21 @@ jobs:
       - name: Expand the self-contained, first-party source package
         run: |
           python3 - <<'PY'
-          import base64, gzip, hashlib, json
+          import base64, gzip, hashlib, json, subprocess
           from pathlib import Path
-          encoded = ''.join(Path('qa/atelier-transfer/%02d.b64' % i).read_text().strip() for i in range(3)) + Path('qa/atelier-payload.json.gz.b64').read_text().strip()
-          assert hashlib.sha256(encoded.encode()).hexdigest() == '8d0e456269635784ce1575b5d34c759ff8f11fe733d8935659151d708e45805f', 'Source transfer hash mismatch'
+          encoded = ''.join(Path('qa/atelier-transfer/%02d.b64' % i).read_text().strip() for i in range(12)) + Path('qa/atelier-payload.json.gz.b64').read_text().strip()
+          assert hashlib.sha256(encoded.encode()).hexdigest() == '21b3417a69a9e015561bfb98f9d85dcaca3e25550c8ba5626e21a648d5793269', 'Source transfer hash mismatch'
           package = json.loads(gzip.decompress(base64.b64decode(encoded, validate=True)))
+          assert package['original'] == '211341d00cce766ff3bb786cfa7f709bb69553f0'
+          original = subprocess.check_output(['git','show',package['original']+':Luna-Line.html']).decode('utf-8')
+          assert hashlib.sha256(original.encode()).hexdigest() == package['originalSha256']
+          for start, end, replacement in reversed(package['edits']):
+              original = original[:start] + replacement + original[end:]
+          assert hashlib.sha256(original.encode()).hexdigest() == package['resultSha256'], 'Canonical runtime mismatch'
+          Path('Luna-Line.html').write_text(original)
           for name, item in package['files'].items():
               path = Path(name)
-              if path.is_absolute() or '..' in path.parts or not (name in ['Luna-Line.html', 'README.md'] or name.startswith('qa/atelier/')):
+              if path.is_absolute() or '..' in path.parts or not (name == 'README.md' or name.startswith('qa/atelier/')):
                   raise SystemExit('Rejected unexpected package path: ' + name)
               data = item['content'].encode('utf-8')
               assert hashlib.sha256(data).hexdigest() == item['sha256'], name
