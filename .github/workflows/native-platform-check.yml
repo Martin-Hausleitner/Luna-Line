@@ -1,0 +1,61 @@
+name: LUNA LINE native platform check
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/native-platform-check.yml]
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Prepare the reviewed runtime and identical QA
+        shell: bash
+        run: |
+          python3 qa/v2/upgrade.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import textwrap,platform
+          workflow=Path('.github/workflows/spatial-details.yml').read_text()
+          code=workflow.split("python3 - <<'PY'",1)[1].split('\n          PY',1)[0]
+          exec(textwrap.dedent(code))
+          p=Path('qa/run-qa-ci.mjs'); s=p.read_text()
+          if platform.system()=='Darwin':
+              for flag in ['--no-sandbox','--disable-dev-shm-usage','--enable-unsafe-swiftshader','--use-angle=vulkan','--use-vulkan=swiftshader','--enable-features=Vulkan','--disable-vulkan-surface','--disable-skia-graphite']:
+                  s=s.replace(repr(flag)+',','')
+          else:
+              s=s.replace("'--use-vulkan=swiftshader'","'--use-vulkan=native','--ignore-gpu-blocklist'")
+          p.write_text(s)
+          PY
+      - name: Select the installed Mesa CPU Vulkan driver on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y mesa-vulkan-drivers
+          driver=$(find /usr/share/vulkan/icd.d -name '*lvp*' -print -quit)
+          test -n "$driver"
+          echo "VK_ICD_FILENAMES=$driver" >> "$GITHUB_ENV"
+          echo 'CHROME_PATH=/usr/bin/google-chrome' >> "$GITHUB_ENV"
+      - name: Test native graphics, detail controls and the real journey
+        shell: bash
+        run: |
+          node qa/run-qa-ci.mjs --full
+          python3 -c "import json; r=json.load(open('qa/report.json')); assert r['status']=='PASS', r"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: luna-line-native-${{ matrix.os }}
+          path: |
+            Luna-Line.html
+            qa/
+          retention-days: 7
