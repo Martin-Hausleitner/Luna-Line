@@ -1,0 +1,8 @@
+{
+  "run": 34832016269,
+  "artifact": 10342323873,
+  "runtimeSHA256": "6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911",
+  "nativeChecks": 25,
+  "status": "PASS",
+  "note": "The native and raster gates passed. Only the source push failed because main advanced; this job preserves the concurrent changes."
+}

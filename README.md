@@ -76,3 +76,48 @@ The public repository is named exactly `Luna-Line`. `main` contains the single c
 LUNA LINE · Demo · not HOMAG · not licensed WAWI · EDV Hausleitner GmbH Linz
 
 **LINE proves the build; WAWI still books the hours.**
+
+
+## Spatial detail upgrade / Räumliche Details (v2)
+
+### English
+
+Click the tracked front or a floating dimension to pause and inspect it.
+Four tabs expose 30 selectable process steps, orthographic dimension drawings,
+material layers and verification limits. The original six-station journey stays.
+
+**1–6** stations; **Space** play/pause; **D** inspect; **M** dimensions;
+**X** explode layers; **R** reset; **Escape** close; **C** CEO; **G** full line;
+**F** fullscreen. Drag to orbit and scroll to zoom in inspection. Front, back,
+top and station-context presets, three finishes, a real exploded model and
+an opening front are available. SVG and JSON exports are actual downloads.
+
+The front remains 597 × 715 × 19 mm with grain seed 409. Additional construction,
+hinges and operation targets are explicit demo assumptions, not measured data
+or approved manufacturing instructions. No machine or booking system is connected.
+
+The restricted local container exercised 46 Canvas2D checks. Native WebGPU and
+live Pages results are separate in `qa/report.json` and `qa/live/report.json`.
+Each report identifies its actual adapter. Publishing uses hosted macOS and an
+Apple GPU, not your personal Mac. Failed Linux SwiftShader trials and historical
+v1 results are not v2 acceptance evidence. The manifest alone proves no browser
+acceptance. QA files are not runtime requirements: Pages serves one HTML file.
+
+### Deutsch
+
+Klicken Sie auf die Front oder ein schwebendes Maß. Die Fahrt pausiert; Sie sehen
+Arbeitsschritte, Maße, Aufbau und Prüfung. Alle 30 Arbeitsschritte sind einzeln
+anwählbar. Drehen, Zoomen, Rückseite, Draufsicht und aufgetrennte Schichten zeigen
+die Details. Die Tür lässt sich in passenden Stationen öffnen. Maßzeichnung
+(SVG) und Bauteildaten (JSON) können Sie direkt exportieren.
+
+**D** öffnet Details, **M** schaltet Maße, **X** trennt Schichten, **R** setzt die
+Ansicht zurück und **Esc** schließt sie. **1–6** und **Leertaste** bedienen die
+Reise; der Regler unten springt zu jedem Zeitpunkt.
+
+Modellmaße, errechnete Sollwerte und fehlende echte Prüfnachweise bleiben getrennt.
+Die Maße folgen dem Modell live, nicht einer Messmaschine. Die Prüfung erfindet
+keine erledigten Messungen. Die Reise verwirft bei langsamen Grafikgeräten keine
+verstrichene Zeit. Beim Verbergen der Seite pausiert sie.
+
+LINE proves the build; WAWI still books the hours.

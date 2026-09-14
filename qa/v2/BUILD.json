@@ -1,0 +1,26 @@
+{
+  "build": "2.0.0-spatial-details",
+  "runtime": "Luna-Line.html",
+  "bytes": 109866,
+  "sourceSHA256": "6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911",
+  "baseSHA256": "dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c",
+  "singleFileRuntime": true,
+  "operationCount": 30,
+  "partId": "TA2026-00009-T04",
+  "finishedDimensionsMM": [
+    597,
+    715,
+    19
+  ],
+  "constructionAndOperations": "Explicit demo assumptions; no actual machine measurements.",
+  "animationClock": "Elapsed wall time; native GPU uses requestAnimationFrame; illustrated fallback uses a 33 ms timer; hidden documents pause playback.",
+  "localInteractionRun": {
+    "status": "PASS",
+    "checks": 46,
+    "renderer": "canvas2d",
+    "nativeWebGPU": "NOT_RUN in the restricted local container"
+  },
+  "nativeBrowserEvidence": "../report.json",
+  "liveBrowserEvidence": "../live/report.json",
+  "note": "This manifest is not a native GPU or live-site test result. Consult the separate browser reports."
+}

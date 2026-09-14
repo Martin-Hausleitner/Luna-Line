@@ -1,0 +1,17 @@
+[
+  {
+    "image": "02-cut.png",
+    "horizontalNeighborMeanDifference": 2.453565305903782,
+    "status": "PASS"
+  },
+  {
+    "image": "06-evening.png",
+    "horizontalNeighborMeanDifference": 2.25183970856102,
+    "status": "PASS"
+  },
+  {
+    "image": "11-layer-detail.png",
+    "horizontalNeighborMeanDifference": 2.913251901853638,
+    "status": "PASS"
+  }
+]

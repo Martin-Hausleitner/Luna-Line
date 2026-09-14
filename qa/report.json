@@ -1,15 +1,15 @@
 {
-  "started": "2026-09-14T01:32:00.902Z",
+  "started": "2026-09-14T10:12:50.765Z",
   "environment": {
     "platform": "darwin",
     "arch": "arm64",
-    "node": "v26.5.0"
+    "node": "v22.23.2"
   },
   "viewport": {
     "width": 1920,
     "height": 1080
   },
-  "sourceSHA256": "dcddf69b5be159d7025c7aa1118da8c51cf0570ed0281971b338dbe40d49846c",
+  "sourceSHA256": "6307a708ce63996df3688e8b0c29f8567854b16e6a7cf7e37c3602e062162911",
   "tests": [
     {
       "name": "Native WebGPU rendering",
@@ -35,7 +35,7 @@
           3.3,
           6.9
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
@@ -75,6 +75,22 @@
       "status": "PASS"
     },
     {
+      "name": "V2 native spatial measurements",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 thirty operation descriptions",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 exploded original front",
+      "status": "PASS"
+    },
+    {
+      "name": "V2 dimension drawing",
+      "status": "PASS"
+    },
+    {
       "name": "C shows 4.2 / 5.0 Soll",
       "status": "PASS"
     },
@@ -87,7 +103,7 @@
       "status": "PASS",
       "detail": {
         "start": 12,
-        "end": 13.297999999999986
+        "end": 13.277699999999989
       }
     },
     {
@@ -102,11 +118,11 @@
       "name": "No external runtime requests",
       "status": "PASS",
       "detail": [
-        "http://127.0.0.1:49618/Luna-Line.html?station=1",
+        "http://127.0.0.1:49164/Luna-Line.html?station=1",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
-        "http://127.0.0.1:49618/Luna-Line.html?renderer=2d&station=5",
+        "http://127.0.0.1:49164/Luna-Line.html?renderer=2d&station=5",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
-        "http://127.0.0.1:49618/Luna-Line.html?station=6",
+        "http://127.0.0.1:49164/Luna-Line.html?station=6",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
       ]
     },
@@ -114,11 +130,11 @@
       "name": "One real 60-second playback",
       "status": "PASS",
       "detail": {
-        "wallSeconds": 60.016,
+        "wallSeconds": 60.185,
         "end": {
           "renderer": "webgpu",
           "gpuError": null,
-          "frames": 3785,
+          "frames": 1969,
           "seconds": 60,
           "station": 5,
           "id": "TA2026-00009-T04",
@@ -136,7 +152,7 @@
             2.0402204575630374,
             5.5
           ],
-          "vertices": 31644
+          "vertices": 55764
         }
       }
     },
@@ -161,8 +177,8 @@
   "shots": [
     {
       "name": "01-lager.png",
-      "bytes": 2024312,
-      "sha256": "69784227f8324df3e8dfc637dd9c08fe8b46a524bdfcec1ec07d75120981b251",
+      "bytes": 2044990,
+      "sha256": "4c67864ab60ec5d25b4992852649ae36e66946611ec59cbcfd44dde9a54c537d",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -184,13 +200,13 @@
           3.332621368008853,
           6.9
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "02-cut.png",
-      "bytes": 2158943,
-      "sha256": "a67f263a4b45f7349dfa315678cb10f1e0321af5141aedca582b09ab7151b290",
+      "bytes": 2189148,
+      "sha256": "e8347f8fff1c4b97ea05bd77e11150ceacf26f4f3f941a168263003fe6566040",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -212,13 +228,13 @@
           4.432621368008853,
           5.2
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "03-edge.png",
-      "bytes": 2005241,
-      "sha256": "b083800bad5301ed1ca23b73a8686785968363537a2e8ac9ec80e3adb40d3199",
+      "bytes": 2012061,
+      "sha256": "9633147be6eb7b17da2cc85349d8035881f7372f65b3900639a31a8022b93b82",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -240,13 +256,13 @@
           2.5,
           4.76895553377957
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "04-press.png",
-      "bytes": 2005944,
-      "sha256": "310d25e5edc744a840abe9b44b20d16c3d66f41947b2716d7429b6e9934d5851",
+      "bytes": 1993689,
+      "sha256": "7ed254a0dcaa0f05e83b878324834a6d357db6629e578c171f8f791f06accaf6",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -268,13 +284,13 @@
           2.632621368008853,
           4.4
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "05-crate.png",
-      "bytes": 2040715,
-      "sha256": "871235fc8a1642142d2a3f476c12c863e831489b435dbf720274e284af6d3870",
+      "bytes": 2034263,
+      "sha256": "08f4682ec84e0b04270962299df0c0590a1d3b7496aebe1a3619cbdf046ce6c8",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -296,13 +312,13 @@
           3.432621368008853,
           7.8
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "06-evening.png",
-      "bytes": 2116991,
-      "sha256": "44538da7ce47e868d777677a084d555d6199ded1f0ff44667cbbcb26f2d5e10b",
+      "bytes": 2103282,
+      "sha256": "d0d39b46d89903b58cc64afa246d006d0ac7b47a5c37c03a6beb4b2a50e5824c",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -324,13 +340,13 @@
           2.082621368008853,
           5.5
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "07-full-line.png",
-      "bytes": 1574967,
-      "sha256": "067fd91e7f8790d51a16f508666c7e74599a2dbc3d5e07b4213da8f90b4f95d0",
+      "bytes": 1574286,
+      "sha256": "85d206d30975b22cb66f97bd747aa8e906e40ac44845879427ef558b2150fdf2",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
@@ -352,13 +368,125 @@
           25,
           46
         ],
-        "vertices": 31644
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "10-process-detail.png",
+      "bytes": 1664695,
+      "sha256": "60448a431cd33115bbd9f87979d28f02f83c34b1815546eee056217018cd06e1",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 10,
+        "seconds": 22,
+        "station": 2,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          24.91914971594652,
+          1.8844011157158747,
+          1.878732206024047
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "11-layer-detail.png",
+      "bytes": 1691273,
+      "sha256": "bf068ba41b432c409aeb69ce1d0fd5c9ef91480f34d57b204236fc41ad6d8386",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 11,
+        "seconds": 22,
+        "station": 2,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          25.514096035318428,
+          1.9277168451875617,
+          1.688806672562158
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "12-back-detail.png",
+      "bytes": 1624694,
+      "sha256": "136abc2265a5fc7e3d0530041b725b40c383bdee0beae0395b2d35b68ee8dc72",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 12,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          60.17685323552726,
+          0.7772386822363551,
+          -1.6823199305501881
+        ],
+        "vertices": 55764
+      }
+    },
+    {
+      "name": "13-dimension-detail.png",
+      "bytes": 1604970,
+      "sha256": "8365d684b13388568250d8220b07c9093a3de2e09fc284d4935fcf1d2e3be2f7",
+      "state": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 12,
+        "seconds": 52,
+        "station": 5,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          60.17685323552726,
+          0.7772386822363551,
+          -1.6823199305501881
+        ],
+        "vertices": 55764
       }
     },
     {
       "name": "08-fallback.png",
-      "bytes": 1773234,
-      "sha256": "686811e70946c3fa6be1ab277755774165461a3674783386c9540b047a44c80c",
+      "bytes": 1825055,
+      "sha256": "e8c2b529e77e436eb10af04b570948fe2e810857590266265312540df4d2f297",
       "state": {
         "renderer": "canvas2d",
         "gpuError": null,
@@ -380,17 +508,17 @@
           3.4,
           7.8
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     },
     {
       "name": "09-mobile.png",
-      "bytes": 53086,
-      "sha256": "22fdc5da6c8bd0959dfa65e0880738f40d344c02e2ec7ca13985660c8662f8a6",
+      "bytes": 401622,
+      "sha256": "3a754e898d3ff3fa9674ce8644f8c4aa01e77460a8ac2acc74cb6f6de0cad1d4",
       "state": {
         "renderer": "webgpu",
         "gpuError": null,
-        "frames": 3,
+        "frames": 1,
         "seconds": 50,
         "station": 5,
         "id": "TA2026-00009-T04",
@@ -404,24 +532,24 @@
         "overview": false,
         "storage": true,
         "camera": [
-          62.73288042459541,
-          2.05,
-          5.5
+          63.88069020292548,
+          2.449,
+          7.935999999999999
         ],
-        "vertices": 31644
+        "vertices": 55764
       }
     }
   ],
   "errors": [],
   "requests": [
-    "http://127.0.0.1:49618/Luna-Line.html?station=1",
+    "http://127.0.0.1:49164/Luna-Line.html?station=1",
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
-    "http://127.0.0.1:49618/Luna-Line.html?renderer=2d&station=5",
+    "http://127.0.0.1:49164/Luna-Line.html?renderer=2d&station=5",
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E",
-    "http://127.0.0.1:49618/Luna-Line.html?station=6",
+    "http://127.0.0.1:49164/Luna-Line.html?station=6",
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.8' d='M0 0h240v240H0z'/%3E%3C/svg%3E"
   ],
-  "base": "http://127.0.0.1:49618/Luna-Line.html",
+  "base": "http://127.0.0.1:49164/Luna-Line.html",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/152.0.7977.83",
@@ -431,7 +559,7 @@
   },
   "adapter": {
     "vendor": "apple",
-    "architecture": "metal-3",
+    "architecture": "",
     "description": ""
   },
   "initial": {
@@ -455,8 +583,8 @@
       3.3,
       6.9
     ],
-    "vertices": 31644
+    "vertices": 55764
   },
   "status": "PASS",
-  "finished": "2026-09-14T01:33:21.582Z"
+  "finished": "2026-09-14T10:14:32.537Z"
 }
