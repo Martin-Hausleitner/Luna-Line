@@ -17,6 +17,8 @@ jobs:
   build-and-verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      LUNA_HEADED: '1'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,14 +59,16 @@ jobs:
               path.write_bytes(data)
           print('All first-party files verified before execution.')
           PY
+          python3 qa/atelier/environment-fix.py
       - name: Install browser test tools, never runtime dependencies
         run: |
           python3 -m pip install playwright==1.55.0
           python3 -m playwright install --with-deps chromium
+          sudo apt-get install -y xvfb xauth libvulkan1 mesa-vulkan-drivers
       - name: Run local browser gates and capture real WebGPU scenes
         run: |
           python3 -m http.server 8088 --bind 127.0.0.1 > /tmp/luna-server.log 2>&1 &
-          python3 qa/atelier/run-qa.py --url http://127.0.0.1:8088/Luna-Line.html --output qa/atelier --require-webgpu
+          DEBUG=pw:browser xvfb-run -a --server-args='-screen 0 1920x1080x24' python3 qa/atelier/run-qa.py --url http://127.0.0.1:8088/Luna-Line.html --output qa/atelier --require-webgpu 2>&1 | tee qa/atelier/execution.log
       - name: Commit only the tested canonical runtime and evidence
         run: |
           git config user.name 'github-actions[bot]'
@@ -100,7 +104,7 @@ jobs:
           else:
               raise SystemExit('Live Pages still differs from the tested canonical file.')
           PY
-          python3 qa/atelier/run-qa.py --url https://martin-hausleitner.github.io/Luna-Line/ --output qa/atelier/live --live --require-webgpu
+          xvfb-run -a --server-args='-screen 0 1920x1080x24' python3 qa/atelier/run-qa.py --url https://martin-hausleitner.github.io/Luna-Line/ --output qa/atelier/live --live --require-webgpu
           git add qa/atelier/live
           git diff --cached --quiet || git commit -m 'Record live Atelier browser checks and screenshots'
           git push origin HEAD:main
