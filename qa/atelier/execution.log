@@ -1,0 +1,119 @@
+PASS Single-file contracts and part identity
+PASS At least 50 documented new features
+PASS Native WebGPU actually initialized
+PASS CEO overlay off by default
+PASS Station 1 and readable unique inscription
+PASS WebGPU remains active for 01-lager.png
+SHOT 01-lager.png 2182361
+PASS Station 2 and readable unique inscription
+PASS WebGPU remains active for 02-cut.png
+SHOT 02-cut.png 2382516
+PASS Station 3 and readable unique inscription
+PASS WebGPU remains active for 03-edge.png
+SHOT 03-edge.png 2182458
+PASS Station 4 and readable unique inscription
+PASS WebGPU remains active for 04-press.png
+SHOT 04-press.png 2097369
+PASS Station 5 and readable unique inscription
+PASS WebGPU remains active for 05-crate.png
+SHOT 05-crate.png 2231099
+PASS Station 6 and readable unique inscription
+PASS WebGPU remains active for 06-evening.png
+SHOT 06-evening.png 2440303
+PASS WebGPU remains active for 07-full-line.png
+SHOT 07-full-line.png 1381652
+PASS All six station ticks visible
+PASS Mausrad zooms toward model
+PASS Zoom has safe near limit
+PASS Zoom-out button
+PASS Camera reset
+PASS Drag orbits camera
+PASS Right-drag pans camera
+PASS Double click focuses front
+PASS Camera preset Vorne
+PASS Camera preset Hinten
+PASS Camera preset Links
+PASS Camera preset Oben
+PASS Camera preset Isometrie
+PASS Camera bookmark restores perspective
+PASS Visible view setting hud
+PASS Visible view setting dimensions
+PASS Visible view setting bounds
+PASS Visible view setting hotspots
+PASS Visible view setting compass
+PASS Visible view setting telemetry
+PASS Visible view setting quality
+PASS Visible construction control door
+PASS Visible construction control explosion
+PASS Visible construction control shelves
+PASS Visible construction control shelfPull
+PASS Visible construction control back
+PASS Visible construction control holes
+PASS Visible construction control clamps
+PASS Visible construction control feet
+PASS Visible construction control levelling
+PASS Visible construction control abs
+PASS Visible construction control edgeMag
+PASS Visible construction control cutProgress
+PASS Visible construction control waste
+PASS Visible construction control dust
+PASS Visible construction control crateLid
+PASS Visible construction control straps
+PASS Visible construction control crateExplode
+PASS Three independent press shelves exist
+PASS Back panel removed from press only
+PASS Section removes right press wall
+PASS Named component selection highlights real mesh
+PASS Isolation state
+PASS WebGPU remains active for 10-isolated.png
+SHOT 10-isolated.png 1205475
+PASS WebGPU remains active for 11-exploded.png
+SHOT 11-exploded.png 2101179
+PASS WebGPU remains active for 12-section.png
+SHOT 12-section.png 2087615
+PICK_TARGETS [{"x": 959.9977681806758, "y": 540.5419464517055, "target": "scene"}, {"x": 1220.2562771247262, "y": 540.5419464517055, "target": "scene"}]
+PASS Two actual surface picks measure 340 mm
+PASS WebGPU remains active for 13-measurement.png
+SHOT 13-measurement.png 2031769
+PASS Clear measurements
+PASS Two-finger native pinch zoom
+PASS First home door click actually opens
+PASS WebGPU remains active for 14-home-door.png
+SHOT 14-home-door.png 2430588
+PASS Visible lighting control daylight
+PASS Visible lighting control warmth
+PASS Visible lighting control led
+PASS Visible lighting control exposure
+PASS Visible lighting control workLights
+PASS Visible lighting control shadows
+PASS Visible lighting control reflections
+PASS Visible lighting control finish
+PASS Visible lighting control roughness
+PASS WebGPU remains active for 15-daylight-smoked.png
+SHOT 15-daylight-smoked.png 2417953
+PASS WebGPU remains active for 16-crate-open.png
+SHOT 16-crate-open.png 2237710
+PASS Visible playback control speed
+PASS Visible playback control loop
+PASS Visible playback control reverse
+PASS Visible playback control process
+PASS Visible playback control autoAssembly
+PASS Timeline scrub seeks the actual camera
+PASS Reverse playback decreases timeline
+PASS Loop wraps at end
+PASS Arrow-key time nudge
+PASS PNG export created actual pixel blob
+PASS Exported JSON includes part and measurements
+PASS Share URL contains actual time and configuration
+PASS Cinema hides tools but retains identity
+PASS Escape restores normal view
+PASS Settings persist through a real reload
+PASS Complete unaccelerated 60-second journey
+SHOT 08-fallback.png 2279807
+PASS Canvas2D fallback has raster pixels
+PASS Mobile has no document overflow
+PASS Mobile ticks fit
+PASS Mobile inspector is operable
+PASS No uncaught browser errors
+PASS No external runtime resources
+{"status": "PASS", "pass": 102, "fail": 0, "unverified": 0, "shots": 16}

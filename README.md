@@ -1,123 +1,85 @@
-“This is proof we can build what we just showed.” LUNA LINE is the digital thread for a joinery. Not a Gantt chart. Not a chat. The same door the customer touched in the showroom is watched as a board, a part, a crate, then a quiet kitchen at 20:47. EDV Hausleitner skin. Process truth and the sold dream are one camera move.
+**This is proof we can build what we just showed.** LUNA LINE is the digital thread for a joinery. Not a Gantt chart. Not a chat. The same door the customer touched in the showroom is watched as a board, a part, a crate, then a quiet kitchen at 20:47. EDV Hausleitner skin. Process truth and the sold dream are one camera move.
 
-**Keys 1–6:** jump to Lager / Zuschnitt / Kante / Presse / Weg / Abend. **Space:** start or pause the 60-second journey. **C:** show/hide the quiet CEO hours overlay (off by default). **G:** the whole line. **F:** fullscreen. The same controls work by clicking the thin station ticks and play control.
+**Keys 1–6:** Lager / Zuschnitt / Kante / Presse / Weg / Abend. **Space:** start or pause the 60-second journey. **C:** workshop hours overlay, off at startup. **G:** the complete line. **F:** fullscreen.
 
-# LUNA LINE
+# LUNA LINE · Atelier / 02
 
-[Open the live journey](https://martin-hausleitner.github.io/Luna-Line/) · [Single runtime file](Luna-Line.html) · [Local QA report](qa/report.json) · [Live QA report](qa/live/report.json)
+[Open the live application](https://martin-hausleitner.github.io/Luna-Line/) · [Canonical single file](Luna-Line.html) · [Browser evidence](qa/atelier/) · [68 additions](qa/atelier/FEATURES.md)
 
-## Deutsch
+## Deutsch — vom Brett zum Bleiben
 
-„Das ist der Beweis, dass wir bauen können, was wir gerade gezeigt haben.“ LUNA LINE ist der digitale Faden für eine Tischlerei. Kein Gantt-Diagramm. Kein Chat. Dieselbe Front, die Ihre Kundschaft im Schauraum berührt hat, begleiten Sie als Platte, als Teil, in der Kiste und schließlich in der stillen Küche um 20:47 Uhr. EDV Hausleitner Gestaltung. Fertigung und Wohnversprechen sind eine Kamerafahrt.
+Dieselbe Front, derselbe Weg: **TA2026-00009-T04 · 597 × 715 × 19 mm**. Die Eichenmaserung mit Signatur 409 und die Eckmarkierungen bleiben vom Zuschnitt bis in die Küche Berger erhalten. Ein durchgehender Kamerapfad und der blaue Bodenfaden verbinden die sechs Stationen. Die Werkstatt bleibt kühl, der erste Abend zu Hause warm.
 
-**Tasten 1–6:** Lager, Zuschnitt, Kante, Presse, Weg, Abend direkt ansehen. **Leertaste:** die 60 Sekunden lange Reise starten oder pausieren. **C:** Werkstattstunden ein-/ausblenden; beim Öffnen immer ausgeschaltet. **G:** Gesamtlinie. **F:** Vollbild. Die dünnen Stationsmarkierungen und die Wiedergabetaste sind auch anklickbar.
+Die Atelier-Erweiterung ergänzt 68 konkrete Funktionen und Darstellungsdetails. Der Schwerpunkt liegt auf freier Inspektion, räumlichen Hinweisen und einem nachvollziehbaren Korpus, nicht auf neuen Verwaltungsbildschirmen.
 
-Öffnen Sie `Luna-Line.html` direkt oder verwenden Sie einen lokalen Webserver. Für native WebGPU-Darstellung benötigen Sie einen Browser mit verfügbarem WebGPU-Adapter und einen geeigneten sicheren Kontext (HTTPS oder localhost). Ohne WebGPU wird dieselbe Reise als nicht leere Canvas2D-Illustration mit bewegter Markierung dargestellt. Die aktive Darstellungsart steht unten rechts. Bei ausgeblendeter Browserseite pausiert die Reise. Die zuletzt betrachtete Position wird lokal gespeichert, soweit Ihr Browser dies erlaubt.
+### Bedienung
 
-## Run / Ausführen
+| Eingabe | Wirkung |
+|---|---|
+| Mausrad, `+` / `−`, zwei Finger | Stufenlos zoomen, mit Nah-/Fernbegrenzung |
+| Ziehen | Umkreisen |
+| Rechte Maustaste oder Umschalttaste + Ziehen | Verschieben |
+| Doppelklick | Front fokussieren |
+| `R` | Kameraperspektive zurücksetzen |
+| `I` | Inspektor mit Ansicht, Bauteil, Licht, Reise und Hilfe |
+| `H` | Technisches, ruhiges oder ausgeschaltetes HUD |
+| `O` / `E` / `X` | Front schwenken / Explosion / rechte Schnittansicht |
+| `M` | Zwei Punkte auf tatsächlichen Oberflächen messen |
+| `P` | Szene als PNG mit Teileidentität exportieren |
+| `K` / Escape | Messemodus / zurück zur Bedienung |
+| Pfeiltasten links/rechts | Zwei Sekunden zurück/vor |
+| Zeitachse | Direkt an eine Stelle der Reise fahren |
 
-No install, no npm, no CDN, no framework, no iframe, no external fonts and no runtime network calls. All geometry, materials, WGSL, styling and logic are in **one 51 KB HTML file**. Open it directly, or for the reproducible localhost route:
+### Der Korpus ist kein Vollblock
 
-```sh
-python3 -m http.server 8080 --bind 127.0.0.1
-# Open http://localhost:8080/Luna-Line.html
-```
+Der 600 × 720 × 560-mm-Demokorpus besteht aus getrennten 19-mm-Seiten, Boden und Deckel, einer einzeln schaltbaren 8-mm-Rückwand und bis zu drei Einlegeböden. Die Front schwenkt um ihre linke Scharnierachse. Die 35-mm-Töpfe, Arme und Montageplatten sind Geometrie; ebenso die Schrauben, einzelnen 32-mm-Bohrungen, Spannklötze und optionalen verstellbaren Füße.
 
-This is an original spatial demonstration, not manufacturing control or enterprise software. All order, household, process, percentage, delivery and working-hour values are **explicit demo fixtures**, not machine receipts or live operational evidence. The 12% waste inscription is illustrative, not a claimed nesting optimisation. No hours, appointments or material movements are booked. No customer data or credentials are included.
+Explosion, Schnitt und Teileisolierung verändern tatsächlich die gezeichnete Geometrie. Das gilt auch für den Inhalt der Transportkiste: Korpus, Front, Eckpolster, Gurte, Latten und abhebbarer Deckel. Kein Bild einer Kiste und kein leerer Platzhalter.
 
-Dies ist eine räumliche Demonstration, keine Maschinensteuerung und keine Warenwirtschaft. Auftrag, Familie Berger, Lieferwoche, 12 % Verschnitt und Werkstattstunden sind **Demodaten**, keine Live-Fertigungsnachweise. LUNA LINE bucht keine Stunden, Termine oder Warenbewegungen.
+### Mehr Grafik, ohne Downloads
 
-## One part, six stations
+Gefaste Geometrie, gedrehte Metall- und Keramikprofile, Eichenporen und Astbild, prozeduraler Stein, Putz und Fischgrätparkett; detaillierte Maschinen, Rollen, Schläuche, Transporter und Treppe; Küche mit Fenster, nächtlicher Silhouette, Vorhängen, Pendelleuchten, Pflanzen, Hockern, Messingarmatur und Unterbauleuchten.
 
-| Station | Visible scene |
-| --- | --- |
-| 1 · Lager | Steel rack; oak panels 2800 × 2070 × 19 mm; Eiche 19 |
-| 2 · Zuschnitt | Saw, panel with cut aperture, tracked 597 × 715 × 19 mm front, separate waste island and offcuts; 12 % |
-| 3 · Kante | ABS 2 mm on the long side, edgebander, spool, slow camera orbit |
-| 4 · Presse | 600 mm base carcass, press and block clamps; same front |
-| 5 · Weg | Protective crate, van silhouette, delivery KW 38 and physical steps on the way home |
-| 6 · Abend | Berger kitchen, same oak signature and front, warm under-cabinet light, 20:47; Montage Freitag 08:00 |
+WebGPU verwendet WGSL, eine 2.048-Pixel-Schattenkarte, Mehrfachabtastung, materialabhängige Reflexe und Tonwertabbildung. Lichtwärme, Tageslicht, Unterbauleuchten, Belichtung und Oberflächenfinish lassen sich verändern. Der Canvas2D-Ersatz zeichnet die gleiche Welt als Illustration mit vereinfachter Beleuchtung; der aktive Renderer wird ausdrücklich angezeigt. Er ist kein fotorealistischer WebGPU-Nachweis.
 
-The actual moving front has identity `TA2026-00009-T04`, dimensions `597 × 715 × 19 mm`, one fixed UV grain signature and a distinctive knot. The camera and part travel through one spatial model, not six scene replacements. Four subtle corner fiducials help follow the front. A blue floor inlay crosses the entire production line and the stairs. The part inscription is projected from a world anchor with a leader to the front.
+### Was die Daten bedeuten
 
-## Shared contract
+Alle Auftrags-, Zeit-, Ausschuss-, Montage- und Prozessangaben sind **Demonstrationswerte**, keine Live-Maschinendaten und keine Zeiterfassung. Der Stundenvergleich bleibt 4,2 / 5,0 h Soll; er bucht nichts. Die 12 % Ausschuss sind eine illustrierte Planannahme, keine Optimierungsberechnung.
 
-| Surface | Responsibility |
-| --- | --- |
-| `Luna.theme` | `#0078C8`, de-AT, EDV Hausleitner brand |
-| `Luna.gpu` | Native WebGPU triangles, depth, 4× MSAA, shadow map, procedural oak, device-loss fallback; truthful active renderer |
-| `Luna.cam` | One Catmull–Rom camera spline with inspection dwell and edge orbit |
-| `Luna.line` | Part identity, immutable dimensions, fixed grain seed, station, 60-second playback |
-| `Luna.store` | Versioned local position in `luna.line.v1`; failure-safe without storage |
+Die Messfunktion schneidet echte Dreiecke des dargestellten Modells und rechnet Weltmeter in Millimeter um. Bei Explosion, Schwenkung und ABS-Vergrößerung misst sie die dargestellte Geometrie, nicht automatisch eine Fertigungszeichnung. Die angezeigten 597 × 715 × 19 mm bleiben die Sollidentität der Front. Es gibt keine CNC-Freigabe, Kollisionsgarantie, Beschlaghersteller-Zertifizierung oder WAWI-Integration.
 
-The Canvas2D route is an illustrated software depth-buffer rasterisation of the same geometry, not a screenshot, blank canvas or imitation GPU status. It also includes a moving tracking marker. It is intentionally lower resolution than native WebGPU.
+Die optionale Leistungsanzeige zeigt **gemessene CPU-Bildaufbauzeit**, nicht erfundene GPU-Benchmarks oder Maschinensensoren. Die Rendererqualität schaltet Auflösungen, keine erfundene Hardware-Erkennung.
 
-## Verification / Prüfung
+## English — run, architecture, evidence
 
-`qa/run-qa.mjs` is a dependency-free browser test driver using Chrome DevTools Protocol and Node's built-in WebSocket. It requires an installed Chrome/Chromium and Node 22 or later, **only for QA**, not to run the product. Set `CHROME_PATH` when using another installation.
+`Luna-Line.html` is the only runtime file. No npm, CDN, external fonts, framework, iframe, remote model or texture request is used. All geometry, SVG icons, CSS, JavaScript and shaders are embedded. Serve the file over HTTPS or localhost for the most reproducible WebGPU execution:
 
 ```sh
-node qa/run-qa.mjs --full
-node qa/run-qa.mjs --base=https://martin-hausleitner.github.io/Luna-Line/
+python3 -m http.server 8088 --bind 127.0.0.1
+# Open http://127.0.0.1:8088/Luna-Line.html
 ```
 
-The local run captures all six stations at **1920 × 1080**, the full line, the Canvas2D fallback and a mobile view. It exercises a real 60-second playback, station keys, pause, CEO toggle, storage and the absence of external runtime requests. The live run captures stations 2 and 6 from GitHub Pages and repeats the essential interaction checks. Reports include source hashes, screenshot hashes, browser details and observed renderer, rather than claims of universal hardware certification. See `qa/VISION.md` for the screenshot review.
+Opening the downloaded file directly also includes a nonblank Canvas2D path. Actual GPU and storage access depend on the browser and origin. A visible renderer indicator reports which path is running. The Pages `index.html` is the exact canonical runtime copied to the existing `gh-pages` branch, not a redirect or a second implementation.
 
-For deterministic inspection, use `?station=1` through `?station=6`, `?t=42`, or `?renderer=2d&station=5`. `Luna.inspect` exposes `jump(index)`, `seek(seconds)`, `overview()` and `snapshot()` for QA. Playback does not auto-start unless explicitly requested with `?play=1` and reduced motion is not enabled.
+The existing contracts are retained: `Luna.theme`, `Luna.gpu`, `Luna.cam`, `Luna.line`, `Luna.store` (`luna.line.v1`). Additional inspection state is under `Luna.detail` and `Luna.inspect`. `Luna.features` contains the 68 documented additions. Validated detail preferences and the camera bookmark use `luna.line.atelier.v2`. Both storage operations fail safely when origin storage is unavailable.
 
-## Publishing
+PNG export captures actual rendered pixels with the part identity and measurement labels; it is not a mock image. JSON export includes the part, settings, camera and measurements. Shared view links preserve journey time, door angle and explosion. No export sends customer data to a server.
 
-The public repository is named exactly `Luna-Line`. `main` contains the single canonical runtime **Luna-Line.html**, documentation and QA. The deployment-only `gh-pages` branch contains that same runtime byte-for-byte as **index.html**, plus `.nojekyll`, so the requested Pages root opens the product without a redirect, iframe or duplicate runtime on `main`. No build tool or npm is involved.
+### Reproducible browser checks
 
-## Craft references, not dependencies
+`qa/atelier/run-qa.py` uses Python Playwright for development-time testing only. The reviewed runtime passed **102/102 checks on macOS 15 with native Apple WebGPU and Chrome 152.0.7977.83** in Actions run 34833631791. Sixteen actual browser screenshots include all stations, construction details, Canvas2D and mobile. The complete journey took **60.064 wall seconds**. This is a hosted Apple machine, not a performance claim for the user's Mac. Publication promotes that exact checked artifact; live Pages is tested separately, with strict exit and report gates. The original source reconstruction workflow is manual-only and cannot publish an older build.
 
-[Aster](https://github.com/wieslawsoltes/Aster), [AxiomCAM](https://github.com/wieslawsoltes/AxiomCAM), [Formalyth](https://github.com/wieslawsoltes/Formalyth), [AureonStudio](https://github.com/wieslawsoltes/AureonStudio), [StrataForge](https://github.com/wieslawsoltes/StrataForge), [KestrelCAD](https://github.com/wieslawsoltes/KestrelCAD). These supplied references inform the craft brief only. This file does not load their applications, borrow their wordmarks or depend on their code. The scene and renderer are original.
+```sh
+python3 -m pip install playwright==1.55.0
+python3 -m playwright install chromium
+python3 qa/atelier/run-qa.py --url http://127.0.0.1:8088/Luna-Line.html --output qa/atelier --require-webgpu
+```
 
-LUNA LINE · Demo · not HOMAG · not licensed WAWI · EDV Hausleitner GmbH Linz
+The reports include the observed browser version, renderer, errors, individual results, SHA-256 screenshot hashes and any unverified gates. Read the latest report rather than treating old original-version test counts as evidence for Atelier. The current-container `about:blank` run exercises Canvas2D and the interface because managed navigation is restricted; it does not prove native WebGPU or persistence.
+
+The original craft references are Aster, AxiomCAM, Formalyth, AureonStudio, StrataForge and KestrelCAD by wieslawsoltes. This app does not embed those applications or claim their feature parity.
 
 **LINE proves the build; WAWI still books the hours.**
 
 
-## Spatial detail upgrade / Räumliche Details (v2)
-
-### English
-
-Click the tracked front or a floating dimension to pause and inspect it.
-Four tabs expose 30 selectable process steps, orthographic dimension drawings,
-material layers and verification limits. The original six-station journey stays.
-
-**1–6** stations; **Space** play/pause; **D** inspect; **M** dimensions;
-**X** explode layers; **R** reset; **Escape** close; **C** CEO; **G** full line;
-**F** fullscreen. Drag to orbit and scroll to zoom in inspection. Front, back,
-top and station-context presets, three finishes, a real exploded model and
-an opening front are available. SVG and JSON exports are actual downloads.
-
-The front remains 597 × 715 × 19 mm with grain seed 409. Additional construction,
-hinges and operation targets are explicit demo assumptions, not measured data
-or approved manufacturing instructions. No machine or booking system is connected.
-
-The restricted local container exercised 46 Canvas2D checks. Native WebGPU and
-live Pages results are separate in `qa/report.json` and `qa/live/report.json`.
-Each report identifies its actual adapter. Publishing uses hosted macOS and an
-Apple GPU, not your personal Mac. Failed Linux SwiftShader trials and historical
-v1 results are not v2 acceptance evidence. The manifest alone proves no browser
-acceptance. QA files are not runtime requirements: Pages serves one HTML file.
-
-### Deutsch
-
-Klicken Sie auf die Front oder ein schwebendes Maß. Die Fahrt pausiert; Sie sehen
-Arbeitsschritte, Maße, Aufbau und Prüfung. Alle 30 Arbeitsschritte sind einzeln
-anwählbar. Drehen, Zoomen, Rückseite, Draufsicht und aufgetrennte Schichten zeigen
-die Details. Die Tür lässt sich in passenden Stationen öffnen. Maßzeichnung
-(SVG) und Bauteildaten (JSON) können Sie direkt exportieren.
-
-**D** öffnet Details, **M** schaltet Maße, **X** trennt Schichten, **R** setzt die
-Ansicht zurück und **Esc** schließt sie. **1–6** und **Leertaste** bedienen die
-Reise; der Regler unten springt zu jedem Zeitpunkt.
-
-Modellmaße, errechnete Sollwerte und fehlende echte Prüfnachweise bleiben getrennt.
-Die Maße folgen dem Modell live, nicht einer Messmaschine. Die Prüfung erfindet
-keine erledigten Messungen. Die Reise verwirft bei langsamen Grafikgeräten keine
-verstrichene Zeit. Beim Verbergen der Seite pausiert sie.
-
-LINE proves the build; WAWI still books the hours.
+The pre-Atelier spatial revision is preserved on `archive/spatial-before-atelier-20260914`. Older root-level QA describes earlier revisions; current Atelier evidence is in `qa/atelier/`. Canonical runtime: 128,011 bytes; SHA-256 `cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec`.

@@ -1,0 +1,752 @@
+{
+  "product": "LUNA LINE Atelier",
+  "observedAt": "2026-09-14T10:34:51.883494+00:00",
+  "url": "http://127.0.0.1:8088/Luna-Line.html",
+  "browserVersion": "152.0.7977.83",
+  "runtimeSha256": "cba13c87caf3cf2cfb02567d019b4fed6cf9f2af9d56005e78b4f12042f985ec",
+  "adapter": {
+    "vendor": "apple",
+    "architecture": "",
+    "description": ""
+  },
+  "initial": {
+    "renderer": "webgpu",
+    "gpuError": null,
+    "frames": 2,
+    "seconds": 0,
+    "station": 0,
+    "id": "TA2026-00009-T04",
+    "dimensionsMM": [
+      597,
+      715,
+      19
+    ],
+    "seed": 409,
+    "playing": false,
+    "overview": false,
+    "storage": true,
+    "camera": [
+      3.482880424595412,
+      2.83,
+      5.48
+    ],
+    "vertices": 216876
+  },
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "Single-file contracts and part identity",
+      "status": "PASS",
+      "detail": {
+        "renderer": "webgpu",
+        "gpuError": null,
+        "frames": 2,
+        "seconds": 0,
+        "station": 0,
+        "id": "TA2026-00009-T04",
+        "dimensionsMM": [
+          597,
+          715,
+          19
+        ],
+        "seed": 409,
+        "playing": false,
+        "overview": false,
+        "storage": true,
+        "camera": [
+          3.482880424595412,
+          2.83,
+          5.48
+        ],
+        "vertices": 216876
+      }
+    },
+    {
+      "name": "At least 50 documented new features",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Native WebGPU actually initialized",
+      "status": "PASS",
+      "detail": {
+        "adapter": {
+          "vendor": "apple",
+          "architecture": "",
+          "description": ""
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "CEO overlay off by default",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 1 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 01-lager.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 2 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 02-cut.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 3 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 03-edge.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 4 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 04-press.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 5 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 05-crate.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Station 6 and readable unique inscription",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 06-evening.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 07-full-line.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "All six station ticks visible",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Mausrad zooms toward model",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Zoom has safe near limit",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Zoom-out button",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera reset",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Drag orbits camera",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Right-drag pans camera",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Double click focuses front",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera preset Vorne",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera preset Hinten",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera preset Links",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera preset Oben",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera preset Isometrie",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Camera bookmark restores perspective",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting hud",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting dimensions",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting bounds",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting hotspots",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting compass",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting telemetry",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible view setting quality",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control door",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control explosion",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control shelves",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control shelfPull",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control back",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control holes",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control clamps",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control feet",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control levelling",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control abs",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control edgeMag",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control cutProgress",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control waste",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control dust",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control crateLid",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control straps",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible construction control crateExplode",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Three independent press shelves exist",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Back panel removed from press only",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Section removes right press wall",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Named component selection highlights real mesh",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Isolation state",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 10-isolated.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 11-exploded.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 12-section.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Two actual surface picks measure 340 mm",
+      "status": "PASS",
+      "detail": [
+        {
+          "a": [
+            35.82999995977765,
+            1.219807757408811,
+            -0.6905000209808352
+          ],
+          "b": [
+            36.170648432028756,
+            1.219807757408811,
+            -0.6905000209808354
+          ],
+          "mm": 340.64847225110384
+        }
+      ]
+    },
+    {
+      "name": "WebGPU remains active for 13-measurement.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Clear measurements",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Two-finger native pinch zoom",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "First home door click actually opens",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 14-home-door.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control daylight",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control warmth",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control led",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control exposure",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control workLights",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control shadows",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control reflections",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control finish",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible lighting control roughness",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 15-daylight-smoked.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "WebGPU remains active for 16-crate-open.png",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible playback control speed",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible playback control loop",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible playback control reverse",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible playback control process",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Visible playback control autoAssembly",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Timeline scrub seeks the actual camera",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Reverse playback decreases timeline",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Loop wraps at end",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Arrow-key time nudge",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "PNG export created actual pixel blob",
+      "status": "PASS",
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "bytes": 1933462
+      }
+    },
+    {
+      "name": "Exported JSON includes part and measurements",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Share URL contains actual time and configuration",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Cinema hides tools but retains identity",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Escape restores normal view",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Settings persist through a real reload",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Complete unaccelerated 60-second journey",
+      "status": "PASS",
+      "detail": {
+        "wallSeconds": 60.064,
+        "state": {
+          "renderer": "webgpu",
+          "gpuError": null,
+          "frames": 698,
+          "seconds": 60,
+          "station": 5,
+          "id": "TA2026-00009-T04",
+          "dimensionsMM": [
+            597,
+            715,
+            19
+          ],
+          "seed": 409,
+          "playing": false,
+          "overview": false,
+          "storage": true,
+          "camera": [
+            63.33711957540459,
+            1.9100008852937669,
+            5.69
+          ],
+          "vertices": 221772
+        }
+      }
+    },
+    {
+      "name": "Canvas2D fallback has raster pixels",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Mobile has no document overflow",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Mobile ticks fit",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "Mobile inspector is operable",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "No external runtime resources",
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "shots": [
+    {
+      "file": "01-lager.png",
+      "sha256": "74aec9bc1b1b07d4abe06522d53ea5321a6e22fd57d8905790f0c71678e4ca36",
+      "bytes": 2182361,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "02-cut.png",
+      "sha256": "02a796672210e548ade9b75b59c5dd73063d94b68686a397635ba51bfb99d08b",
+      "bytes": 2382516,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "03-edge.png",
+      "sha256": "5116911056dbebd20c2b95920852725a5a09b6971639751bc42bd16ac4f259b1",
+      "bytes": 2182458,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "04-press.png",
+      "sha256": "404a6390d19c9533f41f233a54b44f164f5abeaec71e5ac7a920dcd939f81061",
+      "bytes": 2097369,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "05-crate.png",
+      "sha256": "ac4d0f2d2346606cec9c0597ad021d288db0cff8328b7b7b100c275391374cb2",
+      "bytes": 2231099,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "06-evening.png",
+      "sha256": "ee1f4f52489caa87c3c23311fe9f7c060f2b45aff0a5dbb4c6a2f3de985e8a7d",
+      "bytes": 2440303,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "07-full-line.png",
+      "sha256": "aa5d33228f9803e5c7c1e529adfad557849d4901b80e13a94bce20fc3b0e34c2",
+      "bytes": 1381652,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "10-isolated.png",
+      "sha256": "80049e149968979b52820240e936d3b17dae2715d1448044fc388dbab5805294",
+      "bytes": 1205475,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "11-exploded.png",
+      "sha256": "432531c6edf19142c9bed37aeecef65e1e9b15eaa8efd7c94204900ef9a6f193",
+      "bytes": 2101179,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "12-section.png",
+      "sha256": "d505ca39dfaff830c5cbe066e85d36ace26961597270cfdc89d71bb64cd88ccc",
+      "bytes": 2087615,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "13-measurement.png",
+      "sha256": "655f1f685699ec8d340eb600d52cc5371931bcbfb9935dbcb79c34e3fc554647",
+      "bytes": 2031769,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "14-home-door.png",
+      "sha256": "f5ae41df332d2d7cbc05df7dcc3f3c7b154352beb05a55527605a39be8bfa533",
+      "bytes": 2430588,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "15-daylight-smoked.png",
+      "sha256": "b094e699b1895e63defe6d348ad5db305f74dae2344f812b51705c655e6ca1a8",
+      "bytes": 2417953,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "16-crate-open.png",
+      "sha256": "aeb6bdc38afd54d490676ce29fe9a4535aaa90bd8d9f8b1cd097585792519d42",
+      "bytes": 2237710,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "webgpu"
+    },
+    {
+      "file": "08-fallback.png",
+      "sha256": "7b7e06dc45e427719dd55b7905cf450c9aee90abf686a5ef81ad69148e0e58e2",
+      "bytes": 2279807,
+      "width": 1920,
+      "height": 1080,
+      "renderer": "canvas2d"
+    },
+    {
+      "file": "09-mobile.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 304845,
+      "sha256": "5624157d777926cf01c2bdeb5f45935cfb6b7ba3379c2ab029ea6b429c5093c5",
+      "renderer": "canvas2d"
+    }
+  ],
+  "errors": [],
+  "limitations": []
+}
